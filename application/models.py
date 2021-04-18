@@ -13,8 +13,9 @@ class Users(db.Model, UserMixin):
   password = db.Column(db.String(200))
   display_name = db.Column(db.String(100))
 
-  def __init__(self, email, password):
+  def __init__(self, email, password, display_name):
     self.email = email
+    self.display_name = display_name
     self.password = generate_password_hash(password)
   
   def check_password(self, password):
