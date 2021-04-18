@@ -1,0 +1,13 @@
+.dashboard-carousel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 1rem; }
+  .dashboard-carousel > div, .dashboard-carousel > a:link {
+    display: block;
+    text-decoration: none;
+    padding: 2rem;
+    background-image: linear-gradient(to bottom right, #ff8059, #a11313);
+    color: #fff; }
+
+/*# sourceMappingURL=custom.css.map */
