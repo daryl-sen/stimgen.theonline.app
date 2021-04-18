@@ -148,16 +148,32 @@ const painter = () => {
 
   const runCoordinateDistribution = (reps, context) => {
     coordinatesList = {};
+    const originalFillStyle = context.fillStyle;
     for (let i = 0; i < reps; i++) {
       for (const sector of [1, 2, 3, 4]) {
         const angle = autoConfigRandomAngle(sector, 0, Math.PI/2);
         const coordinates = generateCoordinatesFromAngle(angle, sector);
-        const originalFillStyle = context.fillStyle;
         context.fillStyle = 'red';
         context.fillRect(coordinates.x, coordinates.y, 1, 1);
       }
     }
+    context.fillStyle = originalFillStyle;
   }
+
+  const showGrid = () => {
+
+  }
+
+  const showMargins = (context) => {
+    const originalStrokeStyle = context.strokeStyle;
+    context.strokeStyle = 'red';
+    // inner margins
+    context.strokeRect(CONFIG.imageCenter.x - CONFIG.centralMargins, 0, CONFIG.centralMargins * 2, context.canvas.height);
+    context.strokeRect(0, CONFIG.imageCenter.y - CONFIG.centralMargins, context.canvas.width, CONFIG.centralMargins * 2);
+    // outer margins
+    context.strokeRect(CONFIG.outerMargins, CONFIG.outerMargins, context.canvas.width - CONFIG.outerMargins * 2, context.canvas.height - CONFIG.outerMargins * 2);
+    context.strokeStyle = originalStrokeStyle;
+  };
 
   return {
     setupCanvasContext,
@@ -167,6 +183,8 @@ const painter = () => {
     generateCoordinatesFromAngle,
     drawSemiBlock,
     runCoordinateDistribution,
-    autoConfigRandomAngle
+    autoConfigRandomAngle,
+    showGrid,
+    showMargins
   }
 }

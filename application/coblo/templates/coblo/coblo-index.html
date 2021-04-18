@@ -26,19 +26,28 @@
   
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
   <script>
-    const { setupCanvasContext, drawFixationCross, convertMarginToAngle, generateRandomAngle, generateCoordinatesFromAngle, drawSemiBlock, runCoordinateDistribution } = painter();
+    const {
+      setupCanvasContext,
+      drawFixationCross,
+      convertMarginToAngle,
+      generateRandomAngle,
+      generateCoordinatesFromAngle,
+      drawSemiBlock,
+      runCoordinateDistribution,
+      showMargins,
+    } = painter();
 
     CONFIG = {
       // ALL UNITS IN PIXELS UNLESS OTHERWISE STATED
       imageBackground: 'black',
       imageWidth: 1280,
       imageHeight: 1024,
-      outerMargins: 20,
+      outerMargins: 50,
       centralMargins: 50,
       objectWidth: 200,
       objectHeight: 100,
       radial: {
-        radius: 300
+        radius: 450
       },
       fixationCross: {
         show: true,
@@ -58,6 +67,7 @@
       drawFixationCross(c1, 0, 0);
     }
 
+    showMargins(c1);
     runCoordinateDistribution(1000, c1);
 
     // const angle = generateRandomAngle(
