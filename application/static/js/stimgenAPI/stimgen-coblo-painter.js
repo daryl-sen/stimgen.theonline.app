@@ -146,7 +146,7 @@ const painter = () => {
 
   }
 
-  const testDistribution = (reps, context) => {
+  const runCoordinateDistribution = (reps, context) => {
     coordinatesList = {};
     for (let i = 0; i < reps; i++) {
       for (const sector of [1, 2, 3, 4]) {
@@ -159,8 +159,6 @@ const painter = () => {
     }
   }
 
-
-
   return {
     setupCanvasContext,
     drawFixationCross,
@@ -168,6 +166,7 @@ const painter = () => {
     convertMarginToAngle,
     generateCoordinatesFromAngle,
     drawSemiBlock,
-    testDistribution
+    runCoordinateDistribution,
+    autoConfigRandomAngle
   }
 }

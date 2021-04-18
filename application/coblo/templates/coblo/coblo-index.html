@@ -26,7 +26,7 @@
   
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
   <script>
-    const { setupCanvasContext, drawFixationCross, convertMarginToAngle, generateRandomAngle, generateCoordinatesFromAngle, drawSemiBlock, testDistribution } = painter();
+    const { setupCanvasContext, drawFixationCross, convertMarginToAngle, generateRandomAngle, generateCoordinatesFromAngle, drawSemiBlock, runCoordinateDistribution } = painter();
 
     CONFIG = {
       // ALL UNITS IN PIXELS UNLESS OTHERWISE STATED
@@ -58,7 +58,7 @@
       drawFixationCross(c1, 0, 0);
     }
 
-    testDistribution(1000, c1);
+    runCoordinateDistribution(1000, c1);
 
     // const angle = generateRandomAngle(
     //   0 + convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2),
