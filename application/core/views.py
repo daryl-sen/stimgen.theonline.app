@@ -17,11 +17,8 @@ def login():
     this_user = Users.query.filter_by(email = form.email.data.lower()).first()
     if this_user is not None and this_user.check_password(form.password.data):
       login_user(this_user)
-      flash(f'Welcome back, {this_user.email}')      
-      next = request.args.get('next')
-      if next == None or not next[0]=='/':
-        next = url_for('core.index')
-      return redirect(next)
+      flash(f'Welcome back, {this_user.display_name}')      
+      return redirect(url_for('core.dashboard'))
     else:
       flash('You have provided a wrong email or password.')
       return redirect(url_for('core.login'))
@@ -36,3 +33,8 @@ def logout():
   logout_user()
   flash('Logged out.')
   return redirect(url_for('core.login'))
+
+@core.route('/dashboard')
+@login_required
+def dashboard():
+  return render_template('dashboard.html')

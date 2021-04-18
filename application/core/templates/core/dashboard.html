@@ -1,0 +1,31 @@
+{% extends 'unilay.html' %}
+
+{% block head_addons %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block page_content %}
+<main class="confined">
+  <h1>Online Lab Dashboard</h1>
+  <section id="projects">
+    <h2>My Projects</h2>
+    <div class="dashboard-carousel">
+      <a class="rounded shadowed text-right" href="#">
+        <h3>One-shot</h3>
+        <p class="text-left">Experiment description here, short and sweet</p>
+      </a>
+    </div>
+  </section>
+  <section id="projects">
+    <h2>My Helpers</h2>
+    <div class="dashboard-carousel">
+      <a href="#" class="rounded shadowed text-right">
+        <h3>Coblo Stimgen</h3>
+        <p>Generate stimuli images consisting of colored blocks.</p>
+      </a>
+    </div>
+  </section>
+</main>
+{% endblock %}
