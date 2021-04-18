@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flask Template - {% block page_title %}With Unilay{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='unilay/css/unilay6.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/fav.ico') }}">
+  {% block head_addons %}{% endblock %}
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('core.index') }}" id="logo-with-text">Flask Template</a>
+    <div id="nav-menu">
+      <ul id="nav-links">
+        {% block custom_nav %}
+          <li><a href="">Documentation</a></li>
+          <li><a href="">Contact</a></li>
+        {% endblock %}
+        <li id="close-button">Close</li>
+      </ul>
+      <button id="mobile-nav-button" class="hidden"></button>
+    </div>
+  </nav>
+  <div id="shades" class="hidden"></div>
+  {% block page_content %}
+  <main class="confined">
+    <section id="welcome" class="spacer-medium">
+    </section>
+  </main>
+  {% endblock %}
+  <footer>
+    <div>&copy; Sen Tang, 2021</div>
+    <div>V7.0.0</div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/uiToggles.js') }}"></script>
+</body>
+</html>
