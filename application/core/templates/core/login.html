@@ -10,8 +10,8 @@
       <h2>Log in to Online Lab</h2>
       <form action="GET" action="{{ url_for('core.login') }}">
         {{ form.hidden_tag() }}
-        {{ form.username.label }}
-        {{ form.username }}
+        {{ form.email.label }}
+        {{ form.email }}
         {{ form.password.label }}
         {{ form.password }}
         {{ form.submit(class_="button-primary") }}

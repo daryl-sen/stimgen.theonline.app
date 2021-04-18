@@ -9,11 +9,12 @@ def load_user(user_id):
 
 class Users(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key = True)
-  username = db.Column(db.String(100), index = True)
+  email = db.Column(db.String(100), index = True)
   password = db.Column(db.String(200))
+  display_name = db.Column(db.String(100))
 
-  def __init__(self, username, password):
-    self.username = username
+  def __init__(self, email, password):
+    self.email = email
     self.password = generate_password_hash(password)
   
   def check_password(self, password):
