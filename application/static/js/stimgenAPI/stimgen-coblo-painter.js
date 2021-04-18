@@ -39,10 +39,54 @@ const painter = () => {
     context.fillStyle = originalFillStyle;
   };
 
+  const generateRandomAngle = (min, max) => {
+    return Math.random() * (max - min) + min;
+  }
+
+  const convertMarginToAngle = (margin) => {
+    return Math.asin(margin / CONFIG.radial.radius)
+  }
+
+  const generateCoordinatesFromAngle = (angle, sector) => {
+    const adjacent = CONFIG.radial.radius * Math.cos(angle);
+    const opposite = CONFIG.radial.radius * Math.sin(angle);
+
+    const coordinates = {};
+
+    switch(sector) {
+      case 1:
+        coordinates.x = CONFIG.imageCenter.x + adjacent;
+        coordinates.y = CONFIG.imageCenter.y - opposite;
+        break;
+      case 2:
+        coordinates.x = CONFIG.imageCenter.x - opposite;
+        coordinates.y = CONFIG.imageCenter.y - adjacent;
+        break;
+      case 3:
+        coordinates.x = CONFIG.imageCenter.x - adjacent;
+        coordinates.y = CONFIG.imageCenter.y + opposite;
+        break;
+      case 4:
+        coordinates.x = CONFIG.imageCenter.x + opposite;
+        coordinates.y = CONFIG.imageCenter.y + adjacent;
+        break;
+      default:
+        return {}
+    }
+
+    coordinates.x = Math.floor(coordinates.x);
+    coordinates.y = Math.floor(coordinates.y);
+
+    return coordinates;
+  };
+
 
 
   return {
     setupCanvasContext,
-    drawFixationCross
+    drawFixationCross,
+    generateRandomAngle,
+    convertMarginToAngle,
+    generateCoordinatesFromAngle
   }
 }
