@@ -22,3 +22,6 @@ login_manager.login_view = 'core.login'
 
 from application.core.views import core
 app.register_blueprint(core, url_prefix="/")
+
+from application.coblo.views import coblo
+app.register_blueprint(coblo, url_prefix="/stimgen/coblo")
