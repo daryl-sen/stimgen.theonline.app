@@ -39,13 +39,45 @@ const painter = () => {
     context.fillStyle = originalFillStyle;
   };
 
-  const generateRandomAngle = (min, max) => {
-    return Math.random() * (max - min) + min;
-  }
-
   const convertMarginToAngle = (margin) => {
     return Math.asin(margin / CONFIG.radial.radius)
   }
+  
+  const generateRandomAngle = (min, max) => {
+    return Math.random() * (max - min) + min;
+  }
+  
+  const autoConfigRandomAngle = (sector, min, max) => {
+    let angleStartOffset;
+    let angleEndOffset;
+
+    switch (sector) {
+      case 1:
+        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        break;
+      case 2:
+        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        break;
+      case 3:
+        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        break;
+      case 4:
+        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        break;
+      default:
+        return {}
+    }
+
+    return generateRandomAngle(
+      min + angleStartOffset,
+      max - angleEndOffset
+    );
+  }
+
 
   const generateCoordinatesFromAngle = (angle, sector) => {
     const adjacent = CONFIG.radial.radius * Math.cos(angle);
@@ -80,6 +112,53 @@ const painter = () => {
     return coordinates;
   };
 
+  const drawSemiBlock = (context, coordinates, leftColor, rightColor) => {
+    const leftOrigin = {
+      x: coordinates.x - CONFIG.objectWidth / 2,
+      y: coordinates.y - CONFIG.objectHeight / 2
+    }
+    const rightOrigin = {
+      x: coordinates.x,
+      y: coordinates.y - CONFIG.objectHeight / 2
+    }
+
+    const blocks = {
+      left: {
+        coordinates: leftOrigin,
+        color: leftColor
+      },
+      right: {
+        coordinates: rightOrigin,
+        color: rightColor
+      }
+    }
+
+    const originalFillStyle = context.fillStyle;
+    for (const block in blocks) {
+      context.fillStyle = blocks[block].color;
+      context.fillRect(blocks[block].coordinates.x, blocks[block].coordinates.y, CONFIG.objectWidth / 2, CONFIG.objectHeight);
+    }
+    context.fillStyle = originalFillStyle;
+
+  }
+
+  const drawFullBlock = (context, coordinates, color) => {
+
+  }
+
+  const testDistribution = (reps, context) => {
+    coordinatesList = {};
+    for (let i = 0; i < reps; i++) {
+      for (const sector of [1, 2, 3, 4]) {
+        const angle = autoConfigRandomAngle(sector, 0, Math.PI/2);
+        const coordinates = generateCoordinatesFromAngle(angle, sector);
+        const originalFillStyle = context.fillStyle;
+        context.fillStyle = 'red';
+        context.fillRect(coordinates.x, coordinates.y, 1, 1);
+      }
+    }
+  }
+
 
 
   return {
@@ -87,6 +166,8 @@ const painter = () => {
     drawFixationCross,
     generateRandomAngle,
     convertMarginToAngle,
-    generateCoordinatesFromAngle
+    generateCoordinatesFromAngle,
+    drawSemiBlock,
+    testDistribution
   }
 }
