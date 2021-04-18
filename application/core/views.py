@@ -14,10 +14,10 @@ def index():
 def login():
   form = login_form()
   if form.validate_on_submit():
-    this_user = Users.query.filter_by(username = form.username.data.lower()).first()
+    this_user = Users.query.filter_by(email = form.email.data.lower()).first()
     if this_user is not None and this_user.check_password(form.password.data):
       login_user(this_user)
-      flash(f'Welcome back, {this_user.username}')      
+      flash(f'Welcome back, {this_user.email}')      
       next = request.args.get('next')
       if next == None or not next[0]=='/':
         next = url_for('core.index')
