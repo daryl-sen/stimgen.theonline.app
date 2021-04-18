@@ -16,7 +16,11 @@
       <ul id="nav-links">
         {% block custom_nav %}
           <li><a href="">Experiments</a></li>
-          <li><a href="">Login</a></li>
+          {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('core.logout') }}">Logout</a></li>
+          {% else %}
+            <li><a href="{{ url_for('core.login') }}">Login</a></li>
+          {% endif %}
         {% endblock %}
         <li id="close-button">Close</li>
       </ul>

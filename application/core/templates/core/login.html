@@ -1,0 +1,29 @@
+{% extends 'unilay.html' %}
+
+{% block page_title %}Login{% endblock %}
+
+{% block page_content %}
+<main class="confined">
+  <h1>Welcome Back!</h1>
+  <section class="side-by-side spacer-medium">
+    <div class="bg-white padded shadowed rounded">
+      <h2>Log in to Online Lab</h2>
+      <form action="GET" action="{{ url_for('core.login') }}">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}
+        {{ form.username }}
+        {{ form.password.label }}
+        {{ form.password }}
+        {{ form.submit(class_="button-primary") }}
+      </form>
+    </div>
+    <div class="bg-gray padded rounded shadowed lined">
+      <h2>How to Sign Up</h2>
+      <p>
+        The Online Lab is an online experimentation platform developed at the SFU Vision Lab. It is currently still a work a progress and access is limited to lab members only.
+      </p>
+      <p>Contact vlab@sfu.ca for more details, or visit <a href="http://www.sfu.ca/psychology/research/vlab.html" target="_blank">our website</a>!</p>
+    </div>
+  </section>
+</main>
+{% endblock %}
