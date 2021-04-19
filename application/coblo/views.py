@@ -13,7 +13,10 @@ def index():
 @coblo.route('/run/<string:ref_id>')
 def run(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
-  return render_template('coblo-run.html')
+  if target_project is None:
+    flash('The requested project does not exist')
+  print(type(target_project.config_JSON))
+  return render_template('coblo-run.html', project_settings=target_project.config_JSON)
 
 @coblo.route('/projects/<string:ref_id>')
 def projects(ref_id):
