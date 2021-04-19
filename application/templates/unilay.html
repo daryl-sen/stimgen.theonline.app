@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Lab - {% block page_title %}With Unilay{% endblock %}</title>
+  <title>Stimgen{% block page_title %}{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='unilay/css/unilay6.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/fav.ico') }}">
   {% block head_addons %}{% endblock %}
 </head>
 <body>
   <nav>
-    <a href="{{ url_for('core.index') }}" id="logo-with-text">Online Lab</a>
+    <a href="{{ url_for('core.index') }}" id="logo-with-text">Stimgen</a>
     <div id="nav-menu">
       <ul id="nav-links">
         {% block custom_nav %}
-          <li><a href="">Experiments</a></li>
+          <li><a href="">Apps</a></li>
+          <li><a href="">About</a></li>
           {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('core.logout') }}">Logout</a></li>
           {% else %}
