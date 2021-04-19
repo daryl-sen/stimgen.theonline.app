@@ -151,7 +151,7 @@ const painter = () => {
     const originalFillStyle = context.fillStyle;
     for (let i = 0; i < reps; i++) {
       for (const sector of [1, 2, 3, 4]) {
-        const angle = autoConfigRandomAngle(sector, 0, Math.PI/2);
+        const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
         const coordinates = generateCoordinatesFromAngle(angle, sector);
         context.fillStyle = 'red';
         context.fillRect(coordinates.x, coordinates.y, 1, 1);

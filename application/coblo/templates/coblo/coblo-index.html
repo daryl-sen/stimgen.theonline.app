@@ -31,6 +31,7 @@
       drawFixationCross,
       convertMarginToAngle,
       generateRandomAngle,
+      autoConfigRandomAngle,
       generateCoordinatesFromAngle,
       drawSemiBlock,
       runCoordinateDistribution,
@@ -46,6 +47,7 @@
       centralMargins: 50,
       objectWidth: 200,
       objectHeight: 100,
+      debug: false,
       radial: {
         radius: 450
       },
@@ -67,17 +69,18 @@
       drawFixationCross(c1, 0, 0);
     }
 
-    showMargins(c1);
-    runCoordinateDistribution(1000, c1);
+    if (CONFIG.debug) {
+      showMargins(c1);
+      runCoordinateDistribution(1000, c1);
+    }
+    
 
-    // const angle = generateRandomAngle(
-    //   0 + convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2),
-    //   Math.PI/2 - convertMarginToAngle(CONFIG.centralMargins) - convertMarginToAngle(CONFIG.objectWidth / 2)
-    // );
+    const angle = autoConfigRandomAngle(1, 0, Math.PI / 2);
 
-    // const coordinates = generateCoordinatesFromAngle(angle, 1);
-
-    // drawSemiBlock(c1, coordinates, '#ff3939', '#358bdc');
+    const coordinates = generateCoordinatesFromAngle(angle, 1);
+    // c1.fillStyle = "gold";
+    // c1.fillRect(coordinates.x, coordinates.y, 10, 10);
+    drawSemiBlock(c1, coordinates, '#ff3939', '#358bdc');
   </script>
 </main>
 {% endblock %}
