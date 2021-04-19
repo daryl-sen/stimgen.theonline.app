@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
 
 class login_form(FlaskForm):
@@ -14,15 +14,16 @@ class project_form(FlaskForm):
 
 class coblo_form(project_form):
   image_background = StringField('Image Background Color')
-  image_width = StringField('Image Width')
-  image_height = StringField('Image Height')
-  outer_margins = StringField('Outer Margin')
-  central_margins = StringField('Central Margin')
-  object_width = StringField('Object Width')
-  object_height = StringField('Object Height')
+  image_width = IntegerField('Image Width')
+  image_height = IntegerField('Image Height')
+  outer_margins = IntegerField('Outer Margin')
+  central_margins = IntegerField('Central Margin')
+  object_width = IntegerField('Object Width')
+  object_height = IntegerField('Object Height')
   debug = BooleanField('Debugging Mode')
-  radius = StringField('Object-Center Radius')
+  radius = IntegerField('Object-Center Radius')
   fixation_cross_show = BooleanField('Show Fixation Cross')
   fixation_cross_color = StringField('Fixation Cross Color')
-  fixation_cross_thickness = StringField('Fixation Cross Thickness')
-  fixation_cross_length = StringField('Fixation Cross Length')
+  fixation_cross_thickness = IntegerField('Fixation Cross Thickness')
+  fixation_cross_length = IntegerField('Fixation Cross Length')
+  colors = StringField('Color Options')
