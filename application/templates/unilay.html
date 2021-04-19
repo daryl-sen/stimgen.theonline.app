@@ -28,6 +28,13 @@
     </div>
   </nav>
   <div id="shades" class="hidden"></div>
+  {% for message in get_flashed_messages() %}
+  <section class="confined" id='notif{{loop.index}}'>
+    <div class='notification' onClick = "dismissNotif('notif{{loop.index}}')">
+      {{ message }}
+    </div>
+  </section>
+  {% endfor %}
   {% block page_content %}
   <main class="confined">
     <section id="welcome" class="spacer-medium">

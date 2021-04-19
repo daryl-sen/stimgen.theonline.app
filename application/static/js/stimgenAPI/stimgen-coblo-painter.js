@@ -91,7 +91,7 @@ const painter = () => {
   const clearCanvas = (targetContexts) => {
     for (const target of targetContexts) {
       const originalFillStyle = target.fillStyle;
-      target.fillStyle = '#000';
+      target.fillStyle = CONFIG.imageBackground;
       target.fillRect(0, 0, target.canvas.width, target.canvas.height);
       target.fillStyle = originalFillStyle;
     }
