@@ -10,8 +10,13 @@ coblo = Blueprint('coblo', __name__, template_folder = 'templates/coblo')
 def index():
   return render_template('coblo-index.html')
 
-@coblo.route('/projects/<string:ref_id')
+@coblo.route('/run/<string:ref_id>')
+def run(ref_id):
+  target_project = Projects.query.filter_by(ref_id=ref_id).first()
+  return render_template('coblo-run.html')
+
+@coblo.route('/projects/<string:ref_id>')
 def projects(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
   form = coblo_form(obj=target_project)
-  return render_template('projects.html', form=form, project_settings=target_project.config_JSON)
+  return render_template('coblo-projects.html', form=form, project_settings=target_project.config_JSON)
