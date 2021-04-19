@@ -38,7 +38,8 @@
       runCoordinateDistribution,
       showMargins,
       setupCanvas,
-      clearCanvas
+      clearCanvas,
+      sampleWithReplacement
     } = painter();
 
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
@@ -52,19 +53,30 @@
 
     setupCanvas([c1, c2]);
     
-    function drawBlocks() {
+    const drawBlocks = () => {
+      const blocks = [];
       for (const sector of [1, 2, 3, 4]) {
+        const colorOptions = [...CONFIG.colors];
         const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
         const coordinates = generateCoordinatesFromAngle(angle, sector);
-        drawSemiBlock(c1, coordinates, '#ff3939', '#358bdc');
+        blocks.push({
+          coordinates,
+          colors: [sampleWithReplacement(colorOptions), sampleWithReplacement(colorOptions)]
+        });
+      }
+
+      for (const block of blocks) {
+        // console.log(block.coordinates, block.colors[0], block.colors[1])
+        drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1]);
+        drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1]);
       }
     };
 
     function regenerate() {
-      clearCanvas([c1, c2])
+      clearCanvas([c1, c2]);
+      drawBlocks();
     }
 
-    drawBlocks();
 
 
 

@@ -98,6 +98,11 @@ const painter = () => {
     setupCanvas(targetContexts);
   }
 
+  const sampleWithReplacement = (options) => {
+    const randomIndex = Math.floor(Math.random() * options.length);
+    return options.splice(randomIndex, 1)[0];
+  };
+
 
   const generateCoordinatesFromAngle = (angle, sector) => {
     const adjacent = CONFIG.radial.radius * Math.cos(angle);
@@ -207,6 +212,7 @@ const painter = () => {
     showGrid,
     showMargins,
     setupCanvas,
-    clearCanvas
+    clearCanvas,
+    sampleWithReplacement
   }
 }
