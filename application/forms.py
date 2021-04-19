@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired
 
 class login_form(FlaskForm):
@@ -27,3 +27,9 @@ class coblo_form(project_form):
   fixation_cross_thickness = IntegerField('Fixation Cross Thickness')
   fixation_cross_length = IntegerField('Fixation Cross Length')
   colors = StringField('Color Options')
+
+class save_image_pair_form(FlaskForm):
+  project_id = HiddenField()
+  stimulus_JSON = TextAreaField()
+  comments = TextAreaField()
+  save = SubmitField()

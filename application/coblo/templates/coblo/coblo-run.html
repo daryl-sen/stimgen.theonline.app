@@ -22,7 +22,13 @@
         <canvas id="modified"></canvas>
       </div>
     </div>
-    <button onClick="regenerate()" class="custom button-primary">Regenerate</button> 
+    <button onClick="regenerate()" class="custom button-secondary">Regenerate</button> 
+    <button onClick="toggleElement('coord-form')" class="custom">Save/Edit Image Pair</button>
+    <form action="" method="GET" id="coord-form" class="hidden">
+      {{ form.hidden_tag() }}
+      {{ form.stimulus_JSON }}
+      {{ form.save(class_="button-primary") }}
+    </form>
   </section>
   
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
@@ -64,6 +70,8 @@
           colors: [sampleWithReplacement(colorOptions), sampleWithReplacement(colorOptions)]
         });
       }
+
+      document.getElementById('stimulus_JSON').value = JSON.stringify(blocks)
 
       for (const block of blocks) {
         // console.log(block.coordinates, block.colors[0], block.colors[1])

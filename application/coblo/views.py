@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, flash, request
 import json
-from application.forms import login_form, coblo_form
+from application.forms import login_form, coblo_form, save_image_pair_form
 from application.models import Users, Projects
 from application import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -14,10 +14,11 @@ def index():
 @coblo.route('/run/<string:ref_id>')
 def run(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
+  form = save_image_pair_form()
   if target_project is None:
     flash('The requested project does not exist')
   print(type(target_project.config_JSON))
-  return render_template('coblo-run.html', project_settings=target_project.config_JSON)
+  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form)
 
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
 def projects(ref_id):
