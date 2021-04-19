@@ -30,7 +30,7 @@
   </nav>
   <div id="shades" class="hidden"></div>
   {% for message in get_flashed_messages() %}
-  <section class="confined" id='notif{{loop.index}}'>
+  <section class="confined rounded" id='notif{{loop.index}}'>
     <div class='notification' onClick = "dismissNotif('notif{{loop.index}}')">
       {{ message }}
     </div>

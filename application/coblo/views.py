@@ -46,6 +46,8 @@ def projects(ref_id):
     })
     target_project.config_JSON = new_JSON
     db.session.commit()
+    flash(f'Your settings for {target_project.name} have been updated.')
+    return redirect(url_for('coblo.projects', ref_id=target_project.ref_id))
   else:
     for field, error in form.errors.items():
         flash('{} ({} error)'.format(error[0], field))
