@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 
 class login_form(FlaskForm):
@@ -20,9 +20,9 @@ class coblo_form(project_form):
   central_margins = StringField('Central Margin')
   object_width = StringField('Object Width')
   object_height = StringField('Object Height')
-  debug = StringField('Debugging Mode')
+  debug = BooleanField('Debugging Mode')
   radius = StringField('Object-Center Radius')
-  fixation_cross_show = StringField('Show Fixation Cross')
+  fixation_cross_show = BooleanField('Show Fixation Cross')
   fixation_cross_color = StringField('Fixation Cross Color')
   fixation_cross_thickness = StringField('Fixation Cross Thickness')
   fixation_cross_length = StringField('Fixation Cross Length')
