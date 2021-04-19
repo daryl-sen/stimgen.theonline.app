@@ -24,7 +24,7 @@ class Users(db.Model, UserMixin):
 
 class Projects(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  ref_id = db.Column(db.Integer, index=True)
+  ref_id = db.Column(db.Integer, index=True, unique=True)
   name = db.Column(db.String(100))
   creation_date = db.Column(db.DateTime, default=dt.datetime.now())
   last_accessed = db.Column(db.DateTime, default=dt.datetime.now())

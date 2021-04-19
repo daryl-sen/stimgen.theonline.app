@@ -1,13 +1,16 @@
 from application import db
 from application.models import *
 from db.user_seeds import users
+from db.project_seeds import projects
 
 all_seeds = [
-  users
+  users,
+  projects
 ]
 
 all_models = [
-  Users
+  Users,
+  Projects
 ]
 
 for i in range(len(all_seeds)):
