@@ -24,19 +24,17 @@ class Users(db.Model, UserMixin):
 
 class Projects(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  ref_id = db.Column(db.Integer, index=True, unique=True)
+  ref_id = db.Column(db.String(30), index=True, unique=True)
   name = db.Column(db.String(100))
   creation_date = db.Column(db.DateTime, default=dt.datetime.now())
   last_accessed = db.Column(db.DateTime, default=dt.datetime.now())
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   config_JSON = db.Column(db.Text)
 
-  def __init__(self, user_id, name, creation_date, last_accessed, config_JSON):
+  def __init__(self, ref_id, user_id, name, config_JSON):
     self.ref_id = ref_id
     self.user_id = user_id
     self.name = name
-    self.creation_date = creation_date
-    self.last_accessed = last_accessed
     self.config_JSON = config_JSON
 
 class Saved_stimuli(db.Model):
