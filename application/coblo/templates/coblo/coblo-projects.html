@@ -102,8 +102,22 @@
       </script>
     </main>
     <aside>
-      <div class="lined padded rounded">
+      <div class="lined padded rounded spacer-small">
         Changing your project settings <b>will not</b> affect items that are already saved.
+      </div>
+      <div class="lined padded rounded">
+        <div class="spacer-small">
+          <input type="color" id="color_picker" name="color_picker">
+          <label for="color_picker">Select Color</label>
+        </div>
+        <button class="custom button-primary" onclick="getHEX()">Get HEX code</button>
+        <div id="hex-code-container"></div>
+        <script>
+          const getHEX = () => {
+            const selectedColor = document.getElementById('color_picker').value;
+            document.getElementById('hex-code-container').innerHTML = selectedColor;
+          }
+        </script>
       </div>
     </aside>
   </section>
