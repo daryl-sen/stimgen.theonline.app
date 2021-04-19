@@ -10,10 +10,7 @@ const painter = () => {
     canvasContext.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
     canvasContext.fillStyle = originalFillStyle;
   
-    return [
-      canvasContext,
-      targetCanvas
-    ];
+    return canvasContext;
   }
   
   const drawFixationCross = (context, offsetX, offsetY) => {
@@ -76,6 +73,29 @@ const painter = () => {
       min + angleStartOffset,
       max - angleEndOffset
     );
+  }
+
+  const setupCanvas = (targetContexts) => {
+    for (const target of targetContexts) {
+      if (CONFIG.fixationCross.show) {
+        drawFixationCross(target, 0, 0);
+      }
+  
+      if (CONFIG.debug) {
+        showMargins(target);
+        runCoordinateDistribution(1000, target);
+      }
+    }
+  };
+
+  const clearCanvas = (targetContexts) => {
+    for (const target of targetContexts) {
+      const originalFillStyle = target.fillStyle;
+      target.fillStyle = '#000';
+      target.fillRect(0, 0, target.canvas.width, target.canvas.height);
+      target.fillStyle = originalFillStyle;
+    }
+    setupCanvas(targetContexts);
   }
 
 
@@ -185,6 +205,8 @@ const painter = () => {
     runCoordinateDistribution,
     autoConfigRandomAngle,
     showGrid,
-    showMargins
+    showMargins,
+    setupCanvas,
+    clearCanvas
   }
 }

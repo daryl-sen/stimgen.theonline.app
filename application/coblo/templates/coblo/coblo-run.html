@@ -22,6 +22,7 @@
         <canvas id="modified"></canvas>
       </div>
     </div>
+    <button onClick="regenerate()" class="custom button-primary">Regenerate</button> 
   </section>
   
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
@@ -36,6 +37,8 @@
       drawSemiBlock,
       runCoordinateDistribution,
       showMargins,
+      setupCanvas,
+      clearCanvas
     } = painter();
 
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
@@ -44,24 +47,29 @@
       y: CONFIG.imageHeight / 2
     }
 
-    const [ c1, c1Canvas ] = setupCanvasContext('original');
+    const c1 = setupCanvasContext('original');
+    const c2 = setupCanvasContext('modified');
 
-    if (CONFIG.fixationCross.show) {
-      drawFixationCross(c1, 0, 0);
-    }
-
-    if (CONFIG.debug) {
-      showMargins(c1);
-      runCoordinateDistribution(1000, c1);
-    }
+    setupCanvas([c1, c2]);
     
+    function drawBlocks() {
+      for (const sector of [1, 2, 3, 4]) {
+        const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
+        const coordinates = generateCoordinatesFromAngle(angle, sector);
+        drawSemiBlock(c1, coordinates, '#ff3939', '#358bdc');
+      }
+    };
 
-    const angle = autoConfigRandomAngle(1, 0, Math.PI / 2);
+    function regenerate() {
+      clearCanvas([c1, c2])
+    }
 
-    const coordinates = generateCoordinatesFromAngle(angle, 1);
-    // c1.fillStyle = "gold";
-    // c1.fillRect(coordinates.x, coordinates.y, 10, 10);
-    drawSemiBlock(c1, coordinates, '#ff3939', '#358bdc');
+    drawBlocks();
+
+
+
+
+
   </script>
 </main>
 {% endblock %}
