@@ -38,3 +38,7 @@ def logout():
 @login_required
 def dashboard():
   return render_template('dashboard.html')
+
+@core.route('/apps')
+def apps():
+  return render_template('apps.html')

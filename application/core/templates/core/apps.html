@@ -1,0 +1,18 @@
+{% extends 'unilay.html' %}
+
+{% block page_title %}Apps{% endblock %}
+
+{% block head_addons %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<main class="confined spacer-medium">
+  <h1>Stimgen Apps</h1>
+  <div class="dashboard-carousel">
+    <a href="{{ url_for('coblo.index') }}" class="shadowed rounded text-right">
+      <h2>Coblo</h2>
+    </a>
+  </div>
+</main>
+{% endblock %}
