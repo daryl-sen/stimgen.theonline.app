@@ -14,7 +14,7 @@
 <main class="confined">
   <h1>Colored Blocks Generator</h1>
   <section class="bg-white shadowed padded">
-    <div class="side-by-side spacer-small">
+    <div class="side-by-side">
       <div>
         <canvas id="original"></canvas>
       </div>
@@ -22,8 +22,18 @@
         <canvas id="modified"></canvas>
       </div>
     </div>
-    <button onClick="regenerate()" class="custom button-secondary">Generate</button> 
-    <button onClick="toggleElement('coord-form'); toggleElement('save-edit-button')" class="custom" id="save-edit-button">Save/Edit Image Pair</button>
+    <div class="side-by-side-flex">
+      <div>
+        <button onClick="regenerate()" class="custom button-secondary">Generate</button> 
+      </div>
+      <div>
+        <button onclick="toggleHighlight()" class="custom button-primary">Highlight Change</button>
+      </div>
+      <div>
+        <button onClick="toggleElement('coord-form')" class="custom">Save/Edit Image Pair</button>
+      </div>
+    </div>
+    
     <div id="coord-form" class="hidden">
       <form action="" method="GET">
         {{ form.hidden_tag() }}
@@ -116,6 +126,9 @@
     }
 
     function toggleHighlight() {
+      if (!state.changedBlock) {
+        return alert('No blocks to change, click on "Generate" first!')
+      }
       if (!state.highlightChange) {
         highlightChange(state.changedBlock, c2);
         state.highlightChange = true;
