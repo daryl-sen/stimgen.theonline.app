@@ -14,7 +14,7 @@ class project_form(FlaskForm):
   edit = SubmitField('Edit Project')
 
 class coblo_form(project_form):
-  image_background = StringField(validators=[label='Image Background Color', render_kw={'placeholder': 'i.e. #000000 for black'})
+  image_background = StringField(label='Image Background Color', render_kw={'placeholder': 'i.e. #000000 for black'})
   image_width = IntegerField('Image Width', render_kw={'placeholder': 'In pixels, default is 1280'})
   image_height = IntegerField('Image Height', render_kw={'placeholder': 'In pixels, default is 1024'})
   outer_margins = IntegerField('Outer Margin', render_kw={'placeholder': 'In pixels, distance from the edge of the image'})
