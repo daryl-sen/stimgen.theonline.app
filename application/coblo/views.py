@@ -9,10 +9,12 @@ import shortuuid
 coblo = Blueprint('coblo', __name__, template_folder = 'templates/coblo')
 
 @coblo.route('/')
+@login_required
 def index():
   return render_template('coblo-index.html')
 
 @coblo.route('/run/<string:ref_id>')
+@login_required
 def run(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
   form = save_image_pair_form()
@@ -23,6 +25,7 @@ def run(ref_id):
 
 @coblo.route('/projects/<string:ref_id>', defaults={'ref_id': 'new'})
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
+@login_required
 def projects(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
   if target_project is None:
