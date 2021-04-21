@@ -229,6 +229,15 @@ const painter = () => {
     return changeLocation;
   }
 
+  const highlightChange = (changeLocation, context) => {
+    const coordinates = changeLocation.coordinates;
+    const boxSize = 10;
+    const originalStrokeStyle = context.strokeStyle;
+    context.strokeStyle = 'red';
+    context.strokeRect(coordinates.x - boxSize, coordinates.y - boxSize, CONFIG.objectWidth + boxSize * 2, CONFIG.objectHeight + boxSize * 2);
+    context.strokeStyle = originalStrokeStyle;
+  }
+
   return {
     setupCanvasContext,
     drawFixationCross,
@@ -243,6 +252,7 @@ const painter = () => {
     setupCanvas,
     clearCanvas,
     sampleWithReplacement,
-    changeLocationManipulation
+    changeLocationManipulation,
+    highlightChange
   }
 }
