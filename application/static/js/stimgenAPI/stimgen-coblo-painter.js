@@ -200,6 +200,35 @@ const painter = () => {
     context.strokeStyle = originalStrokeStyle;
   };
 
+  const pickChangeLocation = (blocks) => {
+    const randomIndex = Math.floor(Math.random() * blocks.length);
+    return blocks[randomIndex];
+  }
+
+  const changeLocationManipulation = (blocks, mode, customConfig) => {
+    const changeLocation = pickChangeLocation(blocks);
+    if (mode === 'flip') {
+      changeLocation.colors = [changeLocation.colors[1], changeLocation.colors[0]];
+    } else if(mode === 'change') {
+      let color1 = changeLocation.colors[0];
+      let color2 = changeLocation.colors[1];
+
+      while (
+        color1 === changeLocation.colors[0] ||
+        color1 === changeLocation.colors[1] ||
+        color2 === changeLocation.colors[0] ||
+        color2 === changeLocation.colors[1]
+      ) {
+        const colorOptions = [...CONFIG.colors];
+        color1 = sampleWithReplacement(colorOptions);
+        color2 = sampleWithReplacement(colorOptions);
+      }
+
+      changeLocation.colors = [color1, color2];
+    }
+    return changeLocation;
+  }
+
   return {
     setupCanvasContext,
     drawFixationCross,
@@ -213,6 +242,7 @@ const painter = () => {
     showMargins,
     setupCanvas,
     clearCanvas,
-    sampleWithReplacement
+    sampleWithReplacement,
+    changeLocationManipulation
   }
 }

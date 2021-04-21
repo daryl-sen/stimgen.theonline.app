@@ -54,7 +54,8 @@
       showMargins,
       setupCanvas,
       clearCanvas,
-      sampleWithReplacement
+      sampleWithReplacement,
+      changeLocationManipulation,
     } = painter();
 
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
@@ -85,11 +86,16 @@
         blocks = JSON.parse(coordinatesJSON);
       }
 
-
+      
       for (const block of blocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1]);
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1]);
       }
+
+      // draw changed block
+      const changedBlock = changeLocationManipulation(blocks, 'change', null);
+      console.log(changedBlock)
+      drawSemiBlock(c2, changedBlock.coordinates, changedBlock.colors[0], changedBlock.colors[1])
     };
 
     function regenerate(basedOnConfig) {
