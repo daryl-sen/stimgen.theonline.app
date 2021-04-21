@@ -11,19 +11,19 @@ coblo = Blueprint('coblo', __name__, template_folder = 'templates/coblo')
 def index():
   return render_template('coblo-index.html')
 
-@coblo.route('/run/<string:ref_id>')
-def run(ref_id):
-  target_project = Projects.query.filter_by(ref_id=ref_id).first()
-  form = save_image_pair_form()
-  if target_project is None:
-    flash('The requested project does not exist')
-  print(type(target_project.config_JSON))
-  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form)
-
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
 def projects(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
-  form = coblo_form(obj=target_project)
+  if target_project is None:
+    form = coblo_form()
+    project_settings = None
+    mode = 'create'
+      
+  else:
+    form = coblo_form(obj=target_project)
+    project_settings = target_project.config_JSON
+    mode = 'edit'
+
   if form.validate_on_submit():    
     new_JSON = json.dumps({
       "imageBackground":form.image_background.data,
@@ -45,14 +45,21 @@ def projects(ref_id):
       "debug":form.debug.data,
       "colors":form.colors.data.split(',')
     })
-    target_project.config_JSON = new_JSON
-    db.session.commit()
-    flash(f'Your settings for {target_project.name} have been updated.')
-    return redirect(url_for('coblo.projects', ref_id=target_project.ref_id))
+    if mode == 'edit':
+      target_project.config_JSON = new_JSON
+      db.session.commit()
+      flash(f'Your settings for {target_project.name} have been updated.')
+      return redirect(url_for('coblo.projects', ref_id=target_project.ref_id))
+    elif mode == 'create':
+      new_project = Projects('ref_id', current_user.id, form.name.data, form.description.data, new_JSON)
+      db.session.add(new_project)
+      db.session.commit()
+      return redirect(url_for('coblo.projects', ref_id=new_project.ref_id))
   else:
     for field, error in form.errors.items():
-        flash('{} ({} error)'.format(error[0], field))
-  return render_template('coblo-projects.html', form=form, project_settings=target_project.config_JSON)
+      flash('{} ({} error)'.format(error[0], field))
+  
+  return render_template('coblo-projects.html', form=form, project_settings=project_settings)
 
 @coblo.route('/new')
 def new():
