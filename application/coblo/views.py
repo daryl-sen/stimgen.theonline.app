@@ -4,12 +4,22 @@ from application.forms import login_form, coblo_form, save_image_pair_form
 from application.models import Users, Projects
 from application import db
 from flask_login import login_user, login_required, logout_user, current_user
+import shortuuid
 
 coblo = Blueprint('coblo', __name__, template_folder = 'templates/coblo')
 
 @coblo.route('/')
 def index():
   return render_template('coblo-index.html')
+
+@coblo.route('/run/<string:ref_id>')
+def run(ref_id):
+  target_project = Projects.query.filter_by(ref_id=ref_id).first()
+  form = save_image_pair_form()
+  if target_project is None:
+    flash('The requested project does not exist')
+  print(type(target_project.config_JSON))
+  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form)
 
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
 def projects(ref_id):
@@ -51,7 +61,7 @@ def projects(ref_id):
       flash(f'Your settings for {target_project.name} have been updated.')
       return redirect(url_for('coblo.projects', ref_id=target_project.ref_id))
     elif mode == 'create':
-      new_project = Projects('ref_id', current_user.id, form.name.data, form.description.data, new_JSON)
+      new_project = Projects(shortuuid.uuid(), current_user.id, form.name.data, form.description.data, new_JSON)
       db.session.add(new_project)
       db.session.commit()
       return redirect(url_for('coblo.projects', ref_id=new_project.ref_id))
@@ -60,8 +70,3 @@ def projects(ref_id):
       flash('{} ({} error)'.format(error[0], field))
   
   return render_template('coblo-projects.html', form=form, project_settings=project_settings)
-
-@coblo.route('/new')
-def new():
-  form = coblo_form()
-  return render_template('coblo-new.html', form=form)
