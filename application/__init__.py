@@ -8,6 +8,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
+PORT = os.getenv('PORT') or 8080
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY')
