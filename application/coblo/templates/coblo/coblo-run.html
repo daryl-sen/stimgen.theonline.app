@@ -105,9 +105,11 @@
     };
 
     function regenerate(basedOnConfig) {
-      let base;
+      let base = null;
       if (basedOnConfig) {
         base = document.getElementById('stimulus_JSON').value;
+      } else {
+        state.changedBlock = null;
       }
       clearCanvas([c1, c2]);
       drawBlocks(base);
