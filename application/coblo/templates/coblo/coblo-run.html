@@ -23,7 +23,7 @@
       </div>
     </div>
     <button onClick="regenerate()" class="custom button-secondary">Regenerate</button> 
-    <button onClick="toggleElement('coord-form')" class="custom">Save/Edit Image Pair</button>
+    <button onClick="toggleElement('coord-form'); toggleElement('save-edit-button')" class="custom" id="save-edit-button">Save/Edit Image Pair</button>
     <div id="coord-form" class="hidden">
       <form action="" method="GET">
         {{ form.hidden_tag() }}
