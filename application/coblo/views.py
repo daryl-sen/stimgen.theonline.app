@@ -53,3 +53,8 @@ def projects(ref_id):
     for field, error in form.errors.items():
         flash('{} ({} error)'.format(error[0], field))
   return render_template('coblo-projects.html', form=form, project_settings=target_project.config_JSON)
+
+@coblo.route('/new')
+def new():
+  form = coblo_form()
+  return render_template('coblo-new.html', form=form)

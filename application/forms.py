@@ -9,6 +9,7 @@ class login_form(FlaskForm):
 
 class project_form(FlaskForm):
   name = StringField('Project Name')
+  description = TextAreaField('Project Description')
   create = SubmitField('Create Project')
   edit = SubmitField('Edit Project')
 

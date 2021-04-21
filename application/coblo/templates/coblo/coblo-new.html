@@ -1,0 +1,76 @@
+{% extends 'unilay.html' %}
+
+{% block page_title %}Colored Blocks Generator{% endblock %}
+
+{% block page_content %}
+<main class="confined">
+  <h1>New Coblo Project</h1>
+  <section class="spacer-medium">
+    <form action="" method="POST">
+      <div class="side-by-side spacer-medium">
+        <div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Project Information</h2>
+            {{ form.name.label }}
+            {{ form.name }}
+            {{ form.description.label }}
+            {{ form.description }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Image Setup</h2>
+            {{ form.hidden_tag() }}
+            {{ form.image_background.label }}
+            {{ form.image_background }}
+            {{ form.image_width.label }}
+            {{ form.image_width }}
+            {{ form.image_height.label }}
+            {{ form.image_height }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Margins</h2>
+            {{ form.outer_margins.label }}
+            {{ form.outer_margins }}
+            {{ form.central_margins.label }}
+            {{ form.central_margins }}
+          </div>
+        </div>
+        <div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Objects Setup</h2>
+            {{ form.object_width.label }}
+            {{ form.object_width }}
+            {{ form.object_height.label }}
+            {{ form.object_height }}
+            {{ form.radius.label }}
+            {{ form.radius }}
+            {{ form.colors.label }}
+            {{ form.colors }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Fixation Cross Setup</h2>
+            {{ form.fixation_cross_color.label }}
+            {{ form.fixation_cross_color }}
+            {{ form.fixation_cross_thickness.label }}
+            {{ form.fixation_cross_thickness }}
+            {{ form.fixation_cross_length.label }}
+            {{ form.fixation_cross_length }}
+            {{ form.fixation_cross_show }}
+            {{ form.fixation_cross_show.label }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Debug Mode</h2>
+            {{ form.debug }}
+            {{ form.debug.label }}
+          </div>
+        </div>       
+      </div>
+      <div class="padded bg-white shadowed">
+        <p>
+          If everything looks good, click on the button below to run stimgen.
+        </p>
+        {{ form.create(class_='button-primary') }}
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}
