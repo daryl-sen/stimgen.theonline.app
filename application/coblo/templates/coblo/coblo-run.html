@@ -22,15 +22,21 @@
         <canvas id="modified"></canvas>
       </div>
     </div>
-    <button onClick="regenerate()" class="custom button-secondary">Regenerate</button> 
+    <button onClick="regenerate()" class="custom button-secondary">Generate</button> 
     <button onClick="toggleElement('coord-form'); toggleElement('save-edit-button')" class="custom" id="save-edit-button">Save/Edit Image Pair</button>
     <div id="coord-form" class="hidden">
       <form action="" method="GET">
         {{ form.hidden_tag() }}
         {{ form.stimulus_JSON }}
-        {{ form.save(class_="button-primary") }}
+        <div class="side-by-side">
+          <div>
+            {{ form.save(class_="button-primary") }}
+          </div>
+          <div>
+            <button type="button" class="custom" onClick="regenerate(true)">Edit Current Image</button>
+          </div>
+        </div>
       </form>
-      <button class="custom" onClick="regenerate(true)">Edit Current Image</button>
     </div>
   </section>
   
