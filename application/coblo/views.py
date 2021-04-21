@@ -71,4 +71,4 @@ def projects(ref_id):
     for field, error in form.errors.items():
       flash('{} ({} error)'.format(error[0], field))
   
-  return render_template('coblo-projects.html', form=form, project_settings=project_settings)
+  return render_template('coblo-projects.html', form=form, project_settings=project_settings, ref_id=ref_id)

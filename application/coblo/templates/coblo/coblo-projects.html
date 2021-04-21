@@ -65,10 +65,18 @@
         </div>       
       </div>
       <div class="padded bg-white shadowed spacer-small">
-        <p>
-          If everything looks good, click on the button below to run stimgen.
-        </p>
-        {{ form.create(class_='button-primary') }}
+        {% if project_settings %}
+          <p>
+            Click on the button below to save your configuration, or <a href="{{ url_for('coblo.run', ref_id=ref_id) }}">run the project</a>.
+          </p>
+          {{ form.edit(class_='button-primary') }}
+        {% else %}
+          <p>
+            If everything looks good click on the button below to create your project.
+          </p>
+          {{ form.create(class_='button-primary') }}
+        {% endif %}
+
       </div>
     </form>
   </section>
