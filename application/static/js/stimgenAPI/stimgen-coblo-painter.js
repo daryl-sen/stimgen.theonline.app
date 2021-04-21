@@ -233,8 +233,16 @@ const painter = () => {
     const coordinates = changeLocation.coordinates;
     const boxSize = 10;
     const originalStrokeStyle = context.strokeStyle;
+    const originalLineWidth = context.lineWidth;
     context.strokeStyle = 'red';
-    context.strokeRect(coordinates.x - boxSize, coordinates.y - boxSize, CONFIG.objectWidth + boxSize * 2, CONFIG.objectHeight + boxSize * 2);
+    context.lineWidth = 10;
+    
+    context.strokeRect(
+      coordinates.x - boxSize - CONFIG.objectWidth / 2,
+      coordinates.y - boxSize - CONFIG.objectHeight / 2,
+      CONFIG.objectWidth + boxSize * 2,
+      CONFIG.objectHeight + boxSize * 2
+    );
     context.strokeStyle = originalStrokeStyle;
   }
 

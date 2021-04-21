@@ -59,6 +59,11 @@
       highlightChange
     } = painter();
 
+    const state = {
+      'changedBlock': null,
+      'highlightChange': false,
+    };
+
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
     CONFIG.imageCenter = {
       x: CONFIG.imageWidth / 2,
@@ -94,8 +99,8 @@
       }
 
       // draw changed block
-      const changedBlock = changeLocationManipulation(blocks, 'change', null);
-      console.log(changedBlock)
+      const changedBlock = state.changedBlock || changeLocationManipulation(blocks, 'change', null);
+      state.changedBlock = changedBlock;
       drawSemiBlock(c2, changedBlock.coordinates, changedBlock.colors[0], changedBlock.colors[1])
     };
 
@@ -107,6 +112,16 @@
       clearCanvas([c1, c2]);
       drawBlocks(base);
     }
+
+    function toggleHighlight() {
+      if (!state.highlightChange) {
+        highlightChange(state.changedBlock, c2);
+        state.highlightChange = true;
+      } else {
+        regenerate(true);
+        state.highlightChange = false;
+      }
+    };
 
 
 
