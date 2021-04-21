@@ -12,10 +12,14 @@
   <section id="projects" class="spacer-large">
     <h2>My Projects</h2>
     <div class="dashboard-carousel">
-      <a class="rounded shadowed text-right" href="#">
-        <h3>One-shot</h3>
-        <p class="text-left">Experiment description here, short and sweet</p>
-      </a>
+      {% if my_projects %}
+        {% for project in my_projects %}
+        <a class="rounded shadowed text-right" href="{{ url_for('coblo.run', ref_id=project.ref_id) }}">
+          <h3>{{ project.name }}</h3>
+          <p class="text-left">{{ project.description }}</p>
+        </a>
+        {% endfor %}
+      {% endif %}
     </div>
   </section>
 </main>

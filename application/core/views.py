@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, flash, request, jsonify, make_response
 from application.forms import login_form
-from application.models import Users
+from application.models import Users, Projects
 from application import db
 from flask_login import login_user, login_required, logout_user, current_user
 
@@ -37,7 +37,10 @@ def logout():
 @core.route('/dashboard')
 @login_required
 def dashboard():
-  return render_template('dashboard.html')
+  my_projects = Projects.query.filter_by(user_id=current_user.id).all()
+  if len(my_projects) == 0:
+    my_projects = None
+  return render_template('dashboard.html', my_projects=my_projects)
 
 @core.route('/apps')
 def apps():
