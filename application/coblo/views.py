@@ -21,6 +21,7 @@ def run(ref_id):
   print(type(target_project.config_JSON))
   return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form)
 
+@coblo.route('/projects/<string:ref_id>', defaults={'ref_id': 'new'})
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
 def projects(ref_id):
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
@@ -64,6 +65,7 @@ def projects(ref_id):
       new_project = Projects(shortuuid.uuid(), current_user.id, form.name.data, form.description.data, new_JSON)
       db.session.add(new_project)
       db.session.commit()
+      flash('Your new project has been created.')
       return redirect(url_for('coblo.projects', ref_id=new_project.ref_id))
   else:
     for field, error in form.errors.items():
