@@ -24,11 +24,14 @@
     </div>
     <button onClick="regenerate()" class="custom button-secondary">Regenerate</button> 
     <button onClick="toggleElement('coord-form')" class="custom">Save/Edit Image Pair</button>
-    <form action="" method="GET" id="coord-form" class="hidden">
-      {{ form.hidden_tag() }}
-      {{ form.stimulus_JSON }}
-      {{ form.save(class_="button-primary") }}
-    </form>
+    <div id="coord-form" class="hidden">
+      <form action="" method="GET">
+        {{ form.hidden_tag() }}
+        {{ form.stimulus_JSON }}
+        {{ form.save(class_="button-primary") }}
+      </form>
+      <button class="custom" onClick="regenerate(true)">Edit Current Image</button>
+    </div>
   </section>
   
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
@@ -59,30 +62,37 @@
 
     setupCanvas([c1, c2]);
     
-    const drawBlocks = () => {
-      const blocks = [];
-      for (const sector of [1, 2, 3, 4]) {
-        const colorOptions = [...CONFIG.colors];
-        const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
-        const coordinates = generateCoordinatesFromAngle(angle, sector);
-        blocks.push({
-          coordinates,
-          colors: [sampleWithReplacement(colorOptions), sampleWithReplacement(colorOptions)]
-        });
+    const drawBlocks = (coordinatesJSON) => {
+      let blocks = [];
+      if (!coordinatesJSON) {
+        for (const sector of [1, 2, 3, 4]) {
+          const colorOptions = [...CONFIG.colors];
+          const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
+          const coordinates = generateCoordinatesFromAngle(angle, sector);
+          blocks.push({
+            coordinates,
+            colors: [sampleWithReplacement(colorOptions), sampleWithReplacement(colorOptions)]
+          });
+        }
+        document.getElementById('stimulus_JSON').value = JSON.stringify(blocks)
+      } else {
+        blocks = JSON.parse(coordinatesJSON);
       }
 
-      document.getElementById('stimulus_JSON').value = JSON.stringify(blocks)
 
       for (const block of blocks) {
-        // console.log(block.coordinates, block.colors[0], block.colors[1])
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1]);
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1]);
       }
     };
 
-    function regenerate() {
+    function regenerate(basedOnConfig) {
+      let base;
+      if (basedOnConfig) {
+        base = document.getElementById('stimulus_JSON').value;
+      }
       clearCanvas([c1, c2]);
-      drawBlocks();
+      drawBlocks(base);
     }
 
 
