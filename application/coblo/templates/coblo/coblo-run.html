@@ -1,16 +1,11 @@
-{% extends 'unilay.html' %}
-
-{% block head_addons %}
+{% extends 'unilay.html' %} {% block head_addons %}
 <style>
   canvas {
     max-width: 100%;
   }
 </style>
-{% endblock %}
-
-{% block page_title %}Colored Blocks Generator{% endblock %}
-
-{% block page_content %}
+{% endblock %} {% block page_title %}Colored Blocks Generator{% endblock %} {%
+block page_content %}
 <main class="confined">
   <h1>Colored Blocks Generator</h1>
   <section class="bg-white shadowed padded">
@@ -24,32 +19,37 @@
     </div>
     <div class="side-by-side-flex">
       <div>
-        <button onClick="regenerate()" class="custom button-secondary">Generate</button> 
+        <button onClick="regenerate()" class="custom button-secondary">
+          Generate
+        </button>
       </div>
       <div>
-        <button onclick="toggleHighlight()" class="custom button-primary">Highlight Change</button>
+        <button onclick="toggleHighlight()" class="custom button-primary">
+          Highlight Change
+        </button>
       </div>
       <div>
-        <button onClick="toggleElement('coord-form')" class="custom">Save/Edit Image Pair</button>
+        <button onClick="toggleElement('coord-form')" class="custom">
+          Save/Edit Image Pair
+        </button>
       </div>
     </div>
-    
+
     <div id="coord-form" class="hidden">
       <form action="" method="GET">
-        {{ form.hidden_tag() }}
-        {{ form.stimulus_JSON }}
+        {{ form.hidden_tag() }} {{ form.stimulus_JSON }}
         <div class="side-by-side">
+          <div>{{ form.save(class_="button-primary") }}</div>
           <div>
-            {{ form.save(class_="button-primary") }}
-          </div>
-          <div>
-            <button type="button" class="custom" onClick="regenerate(true)">Edit Current Image</button>
+            <button type="button" class="custom" onClick="regenerate(true)">
+              Edit Current Image
+            </button>
           </div>
         </div>
       </form>
     </div>
   </section>
-  
+
   <script src="{{ url_for('static', filename='js/stimgenAPI/stimgen-coblo-painter.js') }}"></script>
   <script>
     const {
@@ -66,25 +66,25 @@
       clearCanvas,
       sampleWithReplacement,
       changeLocationManipulation,
-      highlightChange
+      highlightChange,
     } = painter();
 
     const state = {
-      'changedBlock': null,
-      'highlightChange': false,
+      changedBlock: null,
+      highlightChange: false,
     };
 
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
     CONFIG.imageCenter = {
       x: CONFIG.imageWidth / 2,
-      y: CONFIG.imageHeight / 2
-    }
+      y: CONFIG.imageHeight / 2,
+    };
 
-    const c1 = setupCanvasContext('original');
-    const c2 = setupCanvasContext('modified');
+    const c1 = setupCanvasContext("original");
+    const c2 = setupCanvasContext("modified");
 
     setupCanvas([c1, c2]);
-    
+
     const drawBlocks = (coordinatesJSON) => {
       let blocks = [];
       if (!coordinatesJSON) {
@@ -94,30 +94,39 @@
           const coordinates = generateCoordinatesFromAngle(angle, sector);
           blocks.push({
             coordinates,
-            colors: [sampleWithReplacement(colorOptions), sampleWithReplacement(colorOptions)]
+            colors: [
+              sampleWithReplacement(colorOptions),
+              sampleWithReplacement(colorOptions),
+            ],
           });
         }
-        document.getElementById('stimulus_JSON').value = JSON.stringify(blocks)
+        document.getElementById("stimulus_JSON").value = JSON.stringify(blocks);
       } else {
         blocks = JSON.parse(coordinatesJSON);
       }
 
-      
       for (const block of blocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1]);
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1]);
       }
 
       // draw changed block
-      const changedBlock = state.changedBlock || changeLocationManipulation(blocks, 'change', null);
+      const changedBlock =
+        state.changedBlock ||
+        changeLocationManipulation(blocks, "{{run_mode}}", null);
       state.changedBlock = changedBlock;
-      drawSemiBlock(c2, changedBlock.coordinates, changedBlock.colors[0], changedBlock.colors[1])
+      drawSemiBlock(
+        c2,
+        changedBlock.coordinates,
+        changedBlock.colors[0],
+        changedBlock.colors[1]
+      );
     };
 
     function regenerate(basedOnConfig) {
       let base = null;
       if (basedOnConfig) {
-        base = document.getElementById('stimulus_JSON').value;
+        base = document.getElementById("stimulus_JSON").value;
       } else {
         state.changedBlock = null;
       }
@@ -127,7 +136,7 @@
 
     function toggleHighlight() {
       if (!state.changedBlock) {
-        return alert('No blocks to change, click on "Generate" first!')
+        return alert('No blocks to change, click on "Generate" first!');
       }
       if (!state.highlightChange) {
         highlightChange(state.changedBlock, c2);
@@ -136,13 +145,7 @@
         regenerate(true);
         state.highlightChange = false;
       }
-    };
-
-
-
-
-
-
+    }
   </script>
 </main>
 {% endblock %}
