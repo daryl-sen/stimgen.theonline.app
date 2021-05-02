@@ -25,13 +25,27 @@ block page_content %}
       </div>
       <div>
         <button onclick="toggleHighlight()" class="custom button-primary">
-          Highlight Change
+          Highlight
         </button>
       </div>
       <div>
         <button onClick="toggleElement('coord-form')" class="custom">
-          Save/Edit Image Pair
+          Save/Edit
         </button>
+      </div>
+      <div>
+        <a href="{{ url_for('coblo.projects', ref_id=ref_id) }}">
+          <button class="custom">Settings</button>
+        </a>
+      </div>
+      <div>
+        <a
+          href="?run_mode={{ 'change' if run_mode == 'flip' else 'flip' if run_mode == 'change' }}"
+        >
+          <button class="custom">
+            {{ '"Flip"' if run_mode == 'flip' else '"Change"' }}
+          </button>
+        </a>
       </div>
     </div>
 

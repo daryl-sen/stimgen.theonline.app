@@ -25,7 +25,7 @@ def run(ref_id):
   if target_project is None:
     flash('The requested project does not exist')
   print(type(target_project.config_JSON))
-  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode)
+  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode, ref_id=ref_id)
 
 @coblo.route('/projects/<string:ref_id>', defaults={'ref_id': 'new'})
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
