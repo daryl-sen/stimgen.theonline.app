@@ -39,9 +39,7 @@ block page_content %}
         </a>
       </div>
       <div>
-        <a
-          href="?run_mode={{ 'change' if run_mode == 'flip' else 'flip' if run_mode == 'change' }}"
-        >
+        <a href="{{ generate_target_url(run_mode, target_mode, 'run_mode') }}">
           <button class="custom">
             {{ '"Flip"' if run_mode == 'flip' else '"Change"' }}
           </button>
@@ -49,10 +47,10 @@ block page_content %}
       </div>
       <div>
         <a
-          href="?run_mode={{ 'change' if run_mode == 'flip' else 'flip' if run_mode == 'change' }}"
+          href="{{ generate_target_url(run_mode, target_mode, 'target_mode') }}"
         >
           <button class="custom">
-            {{ '"Target"' if inverse == False else '"Inverse"' }}
+            {{ '"Inverse"' if target_mode == 'inverse' else '"Target"' }}
           </button>
         </a>
       </div>
