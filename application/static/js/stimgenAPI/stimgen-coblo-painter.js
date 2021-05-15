@@ -260,6 +260,19 @@ const painter = () => {
     return changeLocation;
   };
 
+  const inverseManipulation = (blocks, mode, customConfig) => {
+    const targetBlock = pickChangeLocation(blocks);
+    for (const block of blocks) {
+      if (
+        block.coordinates.x !== targetBlock.coordinates.x &&
+        block.coordinates.y !== targetBlock.coordinates.y
+      ) {
+        changeLocationManipulation(block, mode, null);
+      }
+    }
+    return targetBlock;
+  };
+
   const highlightChange = (changeLocation, context) => {
     const coordinates = changeLocation.coordinates;
     const boxSize = 10;
@@ -293,6 +306,7 @@ const painter = () => {
     sampleWithReplacement,
     pickChangeLocation,
     changeLocationManipulation,
+    inverseManipulation,
     highlightChange,
   };
 };
