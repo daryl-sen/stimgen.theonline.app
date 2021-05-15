@@ -88,6 +88,7 @@ block page_content %}
       sampleWithReplacement,
       pickChangeLocation,
       changeLocationManipulation,
+      inverseManipulation,
       highlightChange,
     } = painter();
 
@@ -133,13 +134,18 @@ block page_content %}
       }
 
       // draw changed block
-      const changedBlock =
-        state.changedBlock ||
-        changeLocationManipulation(
-          pickChangeLocation(blocks),
-          "{{run_mode}}",
-          null
-        );
+      const targetLocation = pickChangeLocation(blocks);
+      const targetMode = "{{ target_mode }}";
+      const runMode = "{{ run_mode }}";
+      if (targetMode === "target") {
+        console.log("running target mode");
+        changeLocationManipulation(targetLocation, runMode, null);
+      } else if (targetMode === "inverse") {
+        console.log("running inverse mode");
+        inverseManipulation(targetLocation, runMode, blocks);
+      }
+
+      const changedBlock = state.changedBlock || targetLocation;
       state.changedBlock = changedBlock;
       drawSemiBlock(
         c2,

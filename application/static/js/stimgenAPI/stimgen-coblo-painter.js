@@ -260,14 +260,14 @@ const painter = () => {
     return changeLocation;
   };
 
-  const inverseManipulation = (blocks, mode, customConfig) => {
-    const targetBlock = pickChangeLocation(blocks);
+  const inverseManipulation = (targetBlock, mode, blocks) => {
     for (const block of blocks) {
       if (
-        block.coordinates.x !== targetBlock.coordinates.x &&
+        block.coordinates.x !== targetBlock.coordinates.x ||
         block.coordinates.y !== targetBlock.coordinates.y
       ) {
         changeLocationManipulation(block, mode, null);
+        console.log("manipulated", block);
       }
     }
     return targetBlock;
