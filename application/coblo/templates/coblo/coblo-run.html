@@ -47,6 +47,15 @@ block page_content %}
           </button>
         </a>
       </div>
+      <div>
+        <a
+          href="?run_mode={{ 'change' if run_mode == 'flip' else 'flip' if run_mode == 'change' }}"
+        >
+          <button class="custom">
+            {{ '"Target"' if inverse == False else '"Inverse"' }}
+          </button>
+        </a>
+      </div>
     </div>
 
     <div id="coord-form" class="hidden">
