@@ -147,12 +147,10 @@ block page_content %}
 
       const changedBlock = state.changedBlock || targetLocation;
       state.changedBlock = changedBlock;
-      drawSemiBlock(
-        c2,
-        changedBlock.coordinates,
-        changedBlock.colors[0],
-        changedBlock.colors[1]
-      );
+
+      for (const block of blocks) {
+        drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1]);
+      }
     };
 
     function regenerate(basedOnConfig) {
