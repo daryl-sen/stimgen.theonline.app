@@ -1,23 +1,25 @@
 const painter = () => {
-
   const setupCanvasContext = (canvasID) => {
     const targetCanvas = document.getElementById(canvasID);
-    [targetCanvas.width, targetCanvas.height] = [CONFIG.imageWidth, CONFIG.imageHeight];
-    const canvasContext = targetCanvas.getContext('2d');
-    
+    [targetCanvas.width, targetCanvas.height] = [
+      CONFIG.imageWidth,
+      CONFIG.imageHeight,
+    ];
+    const canvasContext = targetCanvas.getContext("2d");
+
     const originalFillStyle = canvasContext.fillStyle;
     canvasContext.fillStyle = CONFIG.imageBackground;
     canvasContext.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
     canvasContext.fillStyle = originalFillStyle;
-  
+
     return canvasContext;
-  }
-  
+  };
+
   const drawFixationCross = (context, offsetX, offsetY) => {
     const originalFillStyle = context.fillStyle;
     const horizontalMidpoint = context.canvas.width / 2 + offsetX;
     const verticalMidpoint = context.canvas.height / 2 + offsetY;
-  
+
     context.fillStyle = CONFIG.fixationCross.color;
     // horizontal line
     context.fillRect(
@@ -37,50 +39,63 @@ const painter = () => {
   };
 
   const convertMarginToAngle = (margin) => {
-    return Math.asin(margin / CONFIG.radial.radius)
-  }
-  
+    return Math.asin(margin / CONFIG.radial.radius);
+  };
+
   const generateRandomAngle = (min, max) => {
     return Math.random() * (max - min) + min;
-  }
-  
+  };
+
   const autoConfigRandomAngle = (sector, min, max) => {
     let angleStartOffset;
     let angleEndOffset;
 
     switch (sector) {
       case 1:
-        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
-        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleStartOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleEndOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectWidth / 2);
         break;
       case 2:
-        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
-        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleStartOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleEndOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectHeight / 2);
         break;
       case 3:
-        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
-        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleStartOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleEndOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectWidth / 2);
         break;
       case 4:
-        angleStartOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectWidth / 2);
-        angleEndOffset = convertMarginToAngle(CONFIG.centralMargins) + convertMarginToAngle(CONFIG.objectHeight / 2);
+        angleStartOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectWidth / 2);
+        angleEndOffset =
+          convertMarginToAngle(CONFIG.centralMargins) +
+          convertMarginToAngle(CONFIG.objectHeight / 2);
         break;
       default:
-        return {}
+        return {};
     }
 
-    return generateRandomAngle(
-      min + angleStartOffset,
-      max - angleEndOffset
-    );
-  }
+    return generateRandomAngle(min + angleStartOffset, max - angleEndOffset);
+  };
 
   const setupCanvas = (targetContexts) => {
     for (const target of targetContexts) {
       if (CONFIG.fixationCross.show) {
         drawFixationCross(target, 0, 0);
       }
-  
+
       if (CONFIG.debug) {
         showMargins(target);
         runCoordinateDistribution(1000, target);
@@ -96,13 +111,12 @@ const painter = () => {
       target.fillStyle = originalFillStyle;
     }
     setupCanvas(targetContexts);
-  }
+  };
 
   const sampleWithReplacement = (options) => {
     const randomIndex = Math.floor(Math.random() * options.length);
     return options.splice(randomIndex, 1)[0];
   };
-
 
   const generateCoordinatesFromAngle = (angle, sector) => {
     const adjacent = CONFIG.radial.radius * Math.cos(angle);
@@ -110,7 +124,7 @@ const painter = () => {
 
     const coordinates = {};
 
-    switch(sector) {
+    switch (sector) {
       case 1:
         coordinates.x = CONFIG.imageCenter.x + adjacent;
         coordinates.y = CONFIG.imageCenter.y - opposite;
@@ -128,7 +142,7 @@ const painter = () => {
         coordinates.y = CONFIG.imageCenter.y + adjacent;
         break;
       default:
-        return {}
+        return {};
     }
 
     coordinates.x = Math.floor(coordinates.x);
@@ -140,36 +154,38 @@ const painter = () => {
   const drawSemiBlock = (context, coordinates, leftColor, rightColor) => {
     const leftOrigin = {
       x: coordinates.x - CONFIG.objectWidth / 2,
-      y: coordinates.y - CONFIG.objectHeight / 2
-    }
+      y: coordinates.y - CONFIG.objectHeight / 2,
+    };
     const rightOrigin = {
       x: coordinates.x,
-      y: coordinates.y - CONFIG.objectHeight / 2
-    }
+      y: coordinates.y - CONFIG.objectHeight / 2,
+    };
 
     const blocks = {
       left: {
         coordinates: leftOrigin,
-        color: leftColor
+        color: leftColor,
       },
       right: {
         coordinates: rightOrigin,
-        color: rightColor
-      }
-    }
+        color: rightColor,
+      },
+    };
 
     const originalFillStyle = context.fillStyle;
     for (const block in blocks) {
       context.fillStyle = blocks[block].color;
-      context.fillRect(blocks[block].coordinates.x, blocks[block].coordinates.y, CONFIG.objectWidth / 2, CONFIG.objectHeight);
+      context.fillRect(
+        blocks[block].coordinates.x,
+        blocks[block].coordinates.y,
+        CONFIG.objectWidth / 2,
+        CONFIG.objectHeight
+      );
     }
     context.fillStyle = originalFillStyle;
+  };
 
-  }
-
-  const drawFullBlock = (context, coordinates, color) => {
-
-  }
+  const drawFullBlock = (context, coordinates, color) => {};
 
   const runCoordinateDistribution = (reps, context) => {
     coordinatesList = {};
@@ -178,38 +194,53 @@ const painter = () => {
       for (const sector of [1, 2, 3, 4]) {
         const angle = autoConfigRandomAngle(sector, 0, Math.PI / 2);
         const coordinates = generateCoordinatesFromAngle(angle, sector);
-        context.fillStyle = 'red';
+        context.fillStyle = "red";
         context.fillRect(coordinates.x, coordinates.y, 1, 1);
       }
     }
     context.fillStyle = originalFillStyle;
-  }
+  };
 
-  const showGrid = () => {
-
-  }
+  const showGrid = () => {};
 
   const showMargins = (context) => {
     const originalStrokeStyle = context.strokeStyle;
-    context.strokeStyle = 'red';
+    context.strokeStyle = "red";
     // inner margins
-    context.strokeRect(CONFIG.imageCenter.x - CONFIG.centralMargins, 0, CONFIG.centralMargins * 2, context.canvas.height);
-    context.strokeRect(0, CONFIG.imageCenter.y - CONFIG.centralMargins, context.canvas.width, CONFIG.centralMargins * 2);
+    context.strokeRect(
+      CONFIG.imageCenter.x - CONFIG.centralMargins,
+      0,
+      CONFIG.centralMargins * 2,
+      context.canvas.height
+    );
+    context.strokeRect(
+      0,
+      CONFIG.imageCenter.y - CONFIG.centralMargins,
+      context.canvas.width,
+      CONFIG.centralMargins * 2
+    );
     // outer margins
-    context.strokeRect(CONFIG.outerMargins, CONFIG.outerMargins, context.canvas.width - CONFIG.outerMargins * 2, context.canvas.height - CONFIG.outerMargins * 2);
+    context.strokeRect(
+      CONFIG.outerMargins,
+      CONFIG.outerMargins,
+      context.canvas.width - CONFIG.outerMargins * 2,
+      context.canvas.height - CONFIG.outerMargins * 2
+    );
     context.strokeStyle = originalStrokeStyle;
   };
 
   const pickChangeLocation = (blocks) => {
     const randomIndex = Math.floor(Math.random() * blocks.length);
     return blocks[randomIndex];
-  }
+  };
 
-  const changeLocationManipulation = (blocks, mode, customConfig) => {
-    const changeLocation = pickChangeLocation(blocks);
-    if (mode === 'flip') {
-      changeLocation.colors = [changeLocation.colors[1], changeLocation.colors[0]];
-    } else if(mode === 'change') {
+  const changeLocationManipulation = (changeLocation, mode, customConfig) => {
+    if (mode === "flip") {
+      changeLocation.colors = [
+        changeLocation.colors[1],
+        changeLocation.colors[0],
+      ];
+    } else if (mode === "change") {
       let color1 = changeLocation.colors[0];
       let color2 = changeLocation.colors[1];
 
@@ -227,16 +258,16 @@ const painter = () => {
       changeLocation.colors = [color1, color2];
     }
     return changeLocation;
-  }
+  };
 
   const highlightChange = (changeLocation, context) => {
     const coordinates = changeLocation.coordinates;
     const boxSize = 10;
     const originalStrokeStyle = context.strokeStyle;
     const originalLineWidth = context.lineWidth;
-    context.strokeStyle = 'red';
+    context.strokeStyle = "red";
     context.lineWidth = 10;
-    
+
     context.strokeRect(
       coordinates.x - boxSize - CONFIG.objectWidth / 2,
       coordinates.y - boxSize - CONFIG.objectHeight / 2,
@@ -244,7 +275,7 @@ const painter = () => {
       CONFIG.objectHeight + boxSize * 2
     );
     context.strokeStyle = originalStrokeStyle;
-  }
+  };
 
   return {
     setupCanvasContext,
@@ -260,7 +291,8 @@ const painter = () => {
     setupCanvas,
     clearCanvas,
     sampleWithReplacement,
+    pickChangeLocation,
     changeLocationManipulation,
-    highlightChange
-  }
-}
+    highlightChange,
+  };
+};
