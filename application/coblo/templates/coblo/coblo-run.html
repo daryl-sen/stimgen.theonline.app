@@ -46,13 +46,28 @@ block page_content %}
         </a>
       </div>
       <div>
-        <a
-          href="{{ generate_target_url(run_mode, target_mode, 'target_mode') }}"
-        >
-          <button class="custom">
-            {{ '"Inverse"' if target_mode == 'inverse' else '"Target"' }}
-          </button>
-        </a>
+        <select onchange="location = this.value;">
+          <option
+            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode=target_mode) }}"
+          >
+            {{ target_mode.capitalize() }}
+          </option>
+          <option
+            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='target') }}"
+          >
+            Target
+          </option>
+          <option
+            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='inverse') }}"
+          >
+            Inverse
+          </option>
+          <option
+            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='all_change') }}"
+          >
+            All Changing
+          </option>
+        </select>
       </div>
     </div>
 
