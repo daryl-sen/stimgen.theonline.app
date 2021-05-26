@@ -38,36 +38,32 @@ block page_content %}
           <button class="custom">Settings</button>
         </a>
       </div>
+    </div>
+    <h3>Manipulation Target</h3>
+    <div class="side-by-side-flex">
       <div>
-        <a href="{{ generate_target_url(run_mode, target_mode, 'run_mode') }}">
-          <button class="custom">
-            {{ '"Flip"' if run_mode == 'flip' else '"Change"' }}
-          </button>
-        </a>
+        <select id="runMode">
+          <option value="{{run_mode}}">{{ run_mode.capitalize() }}</option>
+          <option disabled>-----</option>
+          <option value="change">Change</option>
+          <option value="flip">Flip</option>
+        </select>
       </div>
       <div>
-        <select onchange="location = this.value;">
-          <option
-            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode=target_mode) }}"
-          >
+        <select id="targetMode">
+          <option value="{{target_mode}}">
             {{ target_mode.capitalize() }}
           </option>
-          <option
-            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='target') }}"
-          >
-            Target
-          </option>
-          <option
-            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='inverse') }}"
-          >
-            Inverse
-          </option>
-          <option
-            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='all') }}"
-          >
-            All Changing
-          </option>
+          <option disabled>-----</option>
+          <option value="target">Target</option>
+          <option value="inverse">Inverse</option>
+          <option value="all">All</option>
         </select>
+      </div>
+      <div>
+        <button class="custom button-secondary" onClick="navigateNewConfig()">
+          Start
+        </button>
       </div>
     </div>
 
@@ -112,6 +108,12 @@ block page_content %}
     CONFIG.imageCenter = {
       x: CONFIG.imageWidth / 2,
       y: CONFIG.imageHeight / 2,
+    };
+
+    const navigateNewConfig = () => {
+      const runMode = document.getElementById("runMode").value;
+      const targetMode = document.getElementById("targetMode").value;
+      window.location.href = `/coblo/run/demo/${runMode}/${targetMode}`;
     };
 
     const c1 = setupCanvasContext("original");
