@@ -267,10 +267,15 @@ const painter = () => {
         block.coordinates.y !== targetBlock.coordinates.y
       ) {
         changeLocationManipulation(block, mode, null);
-        console.log("manipulated", block);
       }
     }
     return targetBlock;
+  };
+
+  const manipulateAllBlocks = (blocks, mode) => {
+    for (const block of blocks) {
+      changeLocationManipulation(block, mode, null);
+    }
   };
 
   const highlightChange = (changeLocation, context) => {
@@ -308,5 +313,6 @@ const painter = () => {
     changeLocationManipulation,
     inverseManipulation,
     highlightChange,
+    manipulateAllBlocks,
   };
 };

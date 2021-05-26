@@ -63,7 +63,7 @@ block page_content %}
             Inverse
           </option>
           <option
-            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='all_change') }}"
+            value="{{ url_for('coblo.run', ref_id=ref_id, run_mode=run_mode, target_mode='all') }}"
           >
             All Changing
           </option>
@@ -105,6 +105,7 @@ block page_content %}
       changeLocationManipulation,
       inverseManipulation,
       highlightChange,
+      manipulateAllBlocks,
     } = painter();
 
     CONFIG = JSON.parse(`{{ project_settings|safe }}`);
@@ -146,6 +147,8 @@ block page_content %}
           changeLocationManipulation(targetLocation, runMode, null);
         } else if (targetMode === "inverse") {
           inverseManipulation(targetLocation, runMode, BBlocks);
+        } else if (targetMode === "all") {
+          manipulateAllBlocks(BBlocks, runMode);
         }
 
         const changedBlock = targetLocation;
@@ -160,7 +163,7 @@ block page_content %}
         drawingInstructions = JSON.parse(coordinatesJSON);
       }
 
-      console.log(drawingInstructions);
+      // console.log(drawingInstructions);
 
       for (const block of drawingInstructions.ABlocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1]);

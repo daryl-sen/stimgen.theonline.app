@@ -55,7 +55,7 @@ def projects(ref_id):
     project_settings = target_project.config_JSON
     mode = 'edit'
 
-  if form.validate_on_submit():    
+  if form.validate_on_submit():
     new_JSON = json.dumps({
       "imageBackground":form.image_background.data,
       "imageWidth":form.image_width.data,
