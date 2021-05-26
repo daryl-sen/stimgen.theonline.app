@@ -114,7 +114,7 @@ block page_content %}
     const navigateNewConfig = () => {
       const runMode = document.getElementById("runMode").value;
       const targetMode = document.getElementById("targetMode").value;
-      window.location.href = `/coblo/run/demo/${runMode}/${targetMode}`;
+      window.location.href = `/coblo/run/{{ref_id}}/${runMode}/${targetMode}`;
     };
 
     const c1 = setupCanvasContext("original");
