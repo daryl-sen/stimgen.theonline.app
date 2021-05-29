@@ -246,8 +246,8 @@ const painter = () => {
 
       while (
         color1 === changeLocation.colors[0] ||
-        // color1 === changeLocation.colors[1] ||
-        color2 === color1 ||
+        color1 === changeLocation.colors[1] ||
+        color2 === changeLocation.colors[0] ||
         color2 === changeLocation.colors[1]
       ) {
         const colorOptions = [...CONFIG.colors];
