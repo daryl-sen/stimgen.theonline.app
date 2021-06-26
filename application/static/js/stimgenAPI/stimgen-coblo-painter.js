@@ -151,15 +151,28 @@ const painter = () => {
     return coordinates;
   };
 
-  const drawSemiBlock = (context, coordinates, leftColor, rightColor) => {
-    const leftOrigin = {
+  const drawSemiBlock = (
+    context,
+    coordinates,
+    leftColor,
+    rightColor,
+    options
+  ) => {
+    let leftOrigin = {
       x: coordinates.x - CONFIG.objectWidth / 2,
       y: coordinates.y - CONFIG.objectHeight / 2,
     };
-    const rightOrigin = {
+    let rightOrigin = {
       x: coordinates.x,
       y: coordinates.y - CONFIG.objectHeight / 2,
     };
+
+    if (options && options.gap) {
+      leftOrigin.x =
+        leftOrigin.x - (options.gap / 2) * (CONFIG.objectWidth / 2);
+      rightOrigin.x =
+        rightOrigin.x + (options.gap / 2) * (CONFIG.objectWidth / 2);
+    }
 
     const blocks = {
       left: {

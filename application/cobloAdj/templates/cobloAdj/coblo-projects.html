@@ -1,0 +1,113 @@
+{% extends 'unilay.html' %} {% block page_title %}Homepage{% endblock %} {%
+block page_content %}
+<main class="confined">
+  <h1>Create a project</h1>
+  <section>
+    <form action="" method="POST">
+      <div class="side-by-side spacer-medium">
+        <div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Project Information</h2>
+            {{ form.name.label }} {{ form.name }} {{ form.description.label }}
+            {{ form.description }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Image Setup</h2>
+            {{ form.hidden_tag() }} {{ form.image_background.label }} {{
+            form.image_background }} {{ form.image_width.label }} {{
+            form.image_width }} {{ form.image_height.label }} {{
+            form.image_height }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Margins</h2>
+            {{ form.outer_margins.label }} {{ form.outer_margins }} {{
+            form.central_margins.label }} {{ form.central_margins }}
+          </div>
+        </div>
+        <div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Objects Setup</h2>
+            {{ form.object_width.label }} {{ form.object_width }} {{
+            form.object_height.label }} {{ form.object_height }} {{
+            form.radius.label }} {{ form.radius }} {{ form.colors.label }} {{
+            form.colors }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Fixation Cross Setup</h2>
+            {{ form.fixation_cross_color.label }} {{ form.fixation_cross_color
+            }} {{ form.fixation_cross_thickness.label }} {{
+            form.fixation_cross_thickness }} {{ form.fixation_cross_length.label
+            }} {{ form.fixation_cross_length }} {{ form.fixation_cross_show }}
+            {{ form.fixation_cross_show.label }}
+          </div>
+          <div class="bg-white padded shadowed spacer-small">
+            <h2>Debug Mode</h2>
+            {{ form.debug }} {{ form.debug.label }}
+          </div>
+        </div>
+      </div>
+      <div class="padded bg-white shadowed spacer-small">
+        {% if project_settings %}
+        <p>
+          Click on the button below to save your configuration, or
+          <a
+            href="{{ url_for('coblo.run', ref_id=ref_id, run_mode='change', target_mode='target') }}"
+            >run the project</a
+          >.
+        </p>
+        {{ form.edit(class_='button-primary') }} {% else %}
+        <p>
+          If everything looks good click on the button below to create your
+          project.
+        </p>
+        {{ form.create(class_='button-primary') }} {% endif %}
+      </div>
+    </form>
+  </section>
+</main>
+<script>
+  const renderConfig = () => {
+    CONFIG = JSON.parse(`{{ project_settings|safe }}`);
+
+    const imageBackground = document.getElementById("image_background");
+    const imageWidth = document.getElementById("image_width");
+    const imageHeight = document.getElementById("image_height");
+    const outerMargins = document.getElementById("outer_margins");
+    const centralMargins = document.getElementById("central_margins");
+    const objectWidth = document.getElementById("object_width");
+    const objectHeight = document.getElementById("object_height");
+    const radius = document.getElementById("radius");
+    const fixationCrossColor = document.getElementById("fixation_cross_color");
+    const fixationCrossThickness = document.getElementById(
+      "fixation_cross_thickness"
+    );
+    const fixationCrossLength = document.getElementById(
+      "fixation_cross_length"
+    );
+    const fixationCrossShow = document.getElementById("fixation_cross_show");
+    const debug = document.getElementById("debug");
+    const colors = document.getElementById("colors");
+
+    imageBackground.value = CONFIG.imageBackground;
+    imageWidth.value = CONFIG.imageWidth;
+    imageHeight.value = CONFIG.imageHeight;
+    outerMargins.value = CONFIG.outerMargins;
+    centralMargins.value = CONFIG.centralMargins;
+    objectWidth.value = CONFIG.objectWidth;
+    objectHeight.value = CONFIG.objectHeight;
+    colors.value = CONFIG.colors;
+
+    radius.value = CONFIG.radial.radius;
+    fixationCrossColor.value = CONFIG.fixationCross.color;
+    fixationCrossThickness.value = CONFIG.fixationCross.thickness;
+    fixationCrossLength.value = CONFIG.fixationCross.length;
+
+    debug.checked = CONFIG.debug;
+    fixationCrossShow.checked = CONFIG.fixationCross.show;
+  };
+
+  // {% if project_settings %}
+  renderConfig();
+  // {% endif %}
+</script>
+{% endblock %}
