@@ -1,41 +1,45 @@
-{% extends 'unilay.html' %}
-
-{% block page_title %}Colored Blocks Generator{% endblock %}
-
-{% block page_content %}
+{% extends 'unilay.html' %} {% block page_title %}Colored Blocks Generator{%
+endblock %} {% block page_content %}
 <main class="confined">
   <h1>Colored Blocks Generator</h1>
   <section class="big-small spacer-medium">
     <main class="padded bg-white shadowed">
       <h2>What is Coblo?</h2>
       <p>
-        Colored blocks is a common type of stimulus used in change blindness experiments. Stimgen helps experimenters generate images containing colored blocks programmatically, drastically reducing preparation times.
+        Colored blocks is a common type of stimulus used in change blindness
+        experiments. Stimgen helps experimenters generate images containing
+        colored blocks programmatically, drastically reducing preparation times.
       </p>
       <p>
-        Coblo is highly customizeable in terms of each colored block's dimensions, placement, and colors.
+        Coblo is highly customizeable in terms of each colored block's
+        dimensions, placement, and colors.
       </p>
       <h3>Modes</h3>
       <p>
-        Stimgen Coblo operates in many different modes to suit different experimental needs. 
+        Stimgen Coblo operates in many different modes to suit different
+        experimental needs.
       </p>
       <div class="border-left-accent spacer-small">
         <h4>Radial (new!)</h4>
         <p>
-          Radial mode generates colored blocks which have centerpoints that are equidistant from the fixation cross.
+          Radial mode generates colored blocks which have centerpoints that are
+          equidistant from the fixation cross.
         </p>
       </div>
       <div class="border-left-accent spacer-small">
         <h4>Flip/Change</h4>
         <p>
-          An image pair is generated each time Coblo runs. One of the pairs will have different colors in the second image (for change blindness). This difference can be a color swap/flip, or a complete change.
+          An image pair is generated each time Coblo runs. One of the pairs will
+          have different colors in the second image (for change blindness). This
+          difference can be a color swap/flip, or a complete change.
         </p>
-      </div> 
+      </div>
     </main>
     <aside>
       <div class="lined rounded padded spacer-small">
         Coblo is still being developed as part of the Stimgen v3 update.
       </div>
-      <a href="{{ url_for('coblo.projects') }}">
+      <a href="{{ url_for('cobloAdj.projects') }}">
         <button class="custom button-primary">Create Coblo Project</button>
       </a>
       <a href="{{ url_for('core.dashboard') }}">
