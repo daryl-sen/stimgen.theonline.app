@@ -11,7 +11,7 @@ cobloAdj = Blueprint('cobloAdj', __name__, template_folder = 'templates/cobloAdj
 @cobloAdj.route('/')
 @login_required
 def index():
-  return render_template('coblo-index.html')
+  return render_template('cobloAdj-index.html')
 
 @cobloAdj.route('/run/<string:ref_id>/<string:run_mode>/<string:target_mode>')
 @login_required
@@ -37,7 +37,7 @@ def run(ref_id, run_mode, target_mode):
   form = save_image_pair_form()
   if target_project is None:
     flash('The requested project does not exist')
-  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode, ref_id=ref_id, target_mode=target_mode, generate_target_url=generate_target_url)
+  return render_template('cobloAdj-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode, ref_id=ref_id, target_mode=target_mode, generate_target_url=generate_target_url)
 
 @cobloAdj.route('/projects/<string:ref_id>', defaults={'ref_id': 'new'})
 @cobloAdj.route('/projects/<string:ref_id>', methods=['get', 'post'])
@@ -90,4 +90,4 @@ def projects(ref_id):
     for field, error in form.errors.items():
       flash('{} ({} error)'.format(error[0], field))
   
-  return render_template('coblo-projects.html', form=form, project_settings=project_settings, ref_id=ref_id)
+  return render_template('cobloAdj-projects.html', form=form, project_settings=project_settings, ref_id=ref_id)
