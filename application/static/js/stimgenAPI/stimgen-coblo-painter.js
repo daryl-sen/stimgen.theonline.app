@@ -167,13 +167,6 @@ const painter = () => {
       y: coordinates.y - CONFIG.objectHeight / 2,
     };
 
-    if (options && options.gap) {
-      leftOrigin.x =
-        leftOrigin.x - (options.gap / 2) * (CONFIG.objectWidth / 2);
-      rightOrigin.x =
-        rightOrigin.x + (options.gap / 2) * (CONFIG.objectWidth / 2);
-    }
-
     const blocks = {
       left: {
         coordinates: leftOrigin,
@@ -185,14 +178,42 @@ const painter = () => {
       },
     };
 
+    if (options && options.gap) {
+      leftOrigin.x =
+        leftOrigin.x - (options.gap / 2) * (CONFIG.objectWidth / 2);
+      rightOrigin.x =
+        rightOrigin.x + (options.gap / 2) * (CONFIG.objectWidth / 2);
+
+      const connectorThickness = 1;
+      blocks.topLine = {
+        coordinates: leftOrigin,
+        color: leftColor,
+        lineOnly: true,
+        connectorThickness,
+      };
+      blocks.bottomLine = {
+        coordinates: {
+          x: leftOrigin.x + CONFIG.objectWidth / 2,
+          y: coordinates.y + CONFIG.objectHeight / 2 - connectorThickness,
+        },
+        color: rightColor,
+        lineOnly: true,
+        connectorThickness,
+      };
+    }
+
     const originalFillStyle = context.fillStyle;
     for (const block in blocks) {
       context.fillStyle = blocks[block].color;
       context.fillRect(
         blocks[block].coordinates.x,
         blocks[block].coordinates.y,
-        CONFIG.objectWidth / 2,
-        CONFIG.objectHeight
+        blocks[block].lineOnly
+          ? (CONFIG.objectWidth / 2) * (options.gap + 1)
+          : CONFIG.objectWidth / 2,
+        blocks[block].lineOnly
+          ? blocks[block].connectorThickness
+          : CONFIG.objectHeight
       );
     }
     context.fillStyle = originalFillStyle;
