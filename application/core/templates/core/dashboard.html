@@ -13,7 +13,7 @@ page_content %}
       {% if my_projects %} {% for project in my_projects %}
       <a
         class="rounded shadowed text-right"
-        href="{{ url_for('coblo.run', ref_id=project.ref_id, run_mode='change', target_mode='target') }}"
+        href="{{ url_for('coblo.run', ref_id=project.ref_id, run_mode='change', target_mode='target', gap=0) }}"
       >
         <h3>{{ project.name }}</h3>
         <p class="text-left">{{ project.description }}</p>

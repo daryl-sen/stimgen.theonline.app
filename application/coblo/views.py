@@ -16,28 +16,11 @@ def index():
 @coblo.route('/run/<string:ref_id>/<string:run_mode>/<string:target_mode>/<string:gap>')
 @login_required
 def run(ref_id, run_mode, target_mode, gap):
-  def generate_target_url(run_mode, target_mode, target):
-
-    if target == "run_mode":
-      if run_mode == "change":
-        new_run_mode = "flip"
-      else:
-        new_run_mode = "change"
-      new_target_mode = target_mode
-    elif target == "target_mode":
-      if target_mode == "target":
-        new_target_mode = "inverse"
-      else:
-        new_target_mode = "target"
-      new_run_mode = run_mode
-
-    return url_for('coblo.run', ref_id=ref_id, run_mode=new_run_mode, target_mode=new_target_mode)
-
   target_project = Projects.query.filter_by(ref_id=ref_id).first()
   form = save_image_pair_form()
   if target_project is None:
     flash('The requested project does not exist')
-  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode, ref_id=ref_id, target_mode=target_mode, gap=gap, generate_target_url=generate_target_url)
+  return render_template('coblo-run.html', project_settings=target_project.config_JSON, form=form, run_mode=run_mode, ref_id=ref_id, target_mode=target_mode, gap=gap)
 
 @coblo.route('/projects/<string:ref_id>', defaults={'ref_id': 'new'})
 @coblo.route('/projects/<string:ref_id>', methods=['get', 'post'])
