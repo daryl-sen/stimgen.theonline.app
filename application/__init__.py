@@ -27,6 +27,3 @@ app.register_blueprint(core, url_prefix="/")
 
 from application.coblo.views import coblo
 app.register_blueprint(coblo, url_prefix="/coblo")
-
-from application.cobloAdj.views import cobloAdj
-app.register_blueprint(cobloAdj, url_prefix="/cobloAdj")
