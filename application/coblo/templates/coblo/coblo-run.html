@@ -71,6 +71,10 @@ block page_content %}
         </button>
       </div>
     </div>
+    <div>
+      <input id="showLines" type="checkbox" />
+      <label for="showLines"> Show connecting lines (if gap is present) </label>
+    </div>
 
     <div id="coord-form" class="hidden">
       <form action="" method="GET">
@@ -151,6 +155,8 @@ block page_content %}
         const targetLocation = pickChangeLocation(BBlocks);
         const targetMode = "{{ target_mode }}";
         const runMode = "{{ run_mode }}";
+        const showLines = document.getElementById("showLines");
+
         if (targetMode === "target") {
           changeLocationManipulation(targetLocation, runMode, null);
         } else if (targetMode === "inverse") {
@@ -176,12 +182,14 @@ block page_content %}
       for (const block of drawingInstructions.ABlocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
+          showLines: showLines.checked,
         });
       }
 
       for (const block of drawingInstructions.BBlocks) {
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
+          showLines: showLines.checked,
         });
       }
     };

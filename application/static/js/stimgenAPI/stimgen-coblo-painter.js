@@ -205,6 +205,10 @@ const painter = () => {
     const originalFillStyle = context.fillStyle;
     for (const block in blocks) {
       context.fillStyle = blocks[block].color;
+      console.log(blocks[block]);
+      if (blocks[block].lineOnly && options.showLines === false) {
+        continue;
+      }
       context.fillRect(
         blocks[block].coordinates.x,
         blocks[block].coordinates.y,
