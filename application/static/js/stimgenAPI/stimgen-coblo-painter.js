@@ -331,9 +331,9 @@ const painter = () => {
       if (options.whiteGap && block === "left") {
         context.fillRect(
           blocks[block].coordinates.x + CONFIG.objectWidth / 2,
-          blocks[block].coordinates.y - 1,
+          blocks[block].coordinates.y,
           (CONFIG.objectWidth / 2) * options.gap,
-          CONFIG.objectHeight - 1
+          CONFIG.objectHeight
         );
       }
       if (options.showNumbers && options.gap && block === "left") {
