@@ -15,6 +15,114 @@ const painter = () => {
     return canvasContext;
   };
 
+  const drawSegment7Number = (
+    context,
+    number,
+    startingCoordinates,
+    options
+  ) => {
+    // horizontal = breadth + length + breadth
+    // vertical = breadth + length + breadth + length + breadth
+
+    const { x, y } = startingCoordinates;
+    const { length, breadth } = options;
+
+    context.fillStyle = "#000000";
+
+    const drawTopLine = () => {
+      context.fillRect(x + breadth, y, length, breadth);
+    };
+    const drawMidLine = () => {
+      context.fillRect(x + breadth, y + breadth + length, length, breadth);
+    };
+    const drawBotLine = () => {
+      context.fillRect(x + breadth, y + 2 * breadth + 2 * length, length, breadth);
+    };
+    const drawTopLeftLine = () => {
+      context.fillRect(x, y + breadth, breadth, length);
+    };
+    const drawBottomLeftLine = () => {
+      context.fillRect(x, y + 2 * breadth + length, breadth, length);
+    };
+    const drawTopRightLine = () => {
+      context.fillRect(x + breadth + length, y + breadth, breadth, length);
+    };
+    const drawBottomRightLine = () => {
+      context.fillRect(x + breadth + length, y + 2 * breadth + length, breadth, length);
+    };
+
+    switch (number) {
+      case 1:
+        drawTopRightLine();
+        drawBottomRightLine();
+        break;
+      case 2:
+        drawTopLine();
+        drawTopRightLine();
+        drawMidLine();
+        drawBottomLeftLine();
+        drawBotLine();
+        break;
+      case 3:
+        drawTopLine();
+        drawMidLine();
+        drawBotLine();
+        drawTopRightLine();
+        drawBottomRightLine();
+        break;
+      case 4:
+        drawTopLeftLine();
+        drawMidLine();
+        drawTopRightLine();
+        drawBottomRightLine();
+        break;
+      case 5:
+        drawTopLine();
+        drawTopLeftLine();
+        drawMidLine();
+        drawBottomRightLine();
+        drawBottomLine();
+        break;
+      case 6:
+        drawTopLine();
+        drawTopLeftLine();
+        drawBottomLeftLine();
+        drawBotLine();
+        drawBottomRightLine();
+        drawMidLine();
+        break;
+      case 7:
+        drawTopLine();
+        drawTopRightLine();
+        drawBottomRightLine();
+        break;
+      case 8:
+        drawTopLine();
+        drawTopLeftLine();
+        drawBottomLeftLine();
+        drawBotLine();
+        drawBottomRightLine();
+        drawMidLine();
+        drawTopRightLine();
+        break;
+      case 9:
+        drawTopLine();
+        drawTopLeftLine();
+        drawBotLine();
+        drawBottomRightLine();
+        drawMidLine();
+        drawTopRightLine();
+        break;
+      default:
+        drawTopLine();
+        drawTopRightLine();
+        drawBottomRightLine();
+        drawBotLine();
+        drawBottomLeftLine();
+        drawTopLeftLine();
+    }
+  };
+
   const drawFixationCross = (context, offsetX, offsetY) => {
     const originalFillStyle = context.fillStyle;
     const horizontalMidpoint = context.canvas.width / 2 + offsetX;
@@ -205,7 +313,7 @@ const painter = () => {
     const originalFillStyle = context.fillStyle;
     for (const block in blocks) {
       context.fillStyle = blocks[block].color;
-      console.log(blocks[block]);
+      // console.log(blocks[block]);
       if (blocks[block].lineOnly && options.showLines === false) {
         continue;
       }
@@ -219,14 +327,27 @@ const painter = () => {
           ? blocks[block].connectorThickness
           : CONFIG.objectHeight
       );
-      context.fillStyle = '#ffffff';
-      if (options.whiteGap && block === 'left') {
+      context.fillStyle = "#ffffff";
+      if (options.whiteGap && block === "left") {
         context.fillRect(
           blocks[block].coordinates.x + CONFIG.objectWidth / 2,
           blocks[block].coordinates.y - 1,
-          CONFIG.objectWidth / 2 * options.gap,
+          (CONFIG.objectWidth / 2) * options.gap,
           CONFIG.objectHeight - 1
-        )
+        );
+      }
+      if (options.showNumbers && options.gap && block === "left") {
+        const length = 10;
+        const breadth = 5;
+        drawSegment7Number(
+          context,
+          options.blockNumber,
+          {
+            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 + (CONFIG.objectWidth / 2 * options.gap) / 2 + length / 2,
+            y: blocks[block].coordinates.y + breadth,
+          },
+          { length, breadth }
+        );
       }
     }
     context.fillStyle = originalFillStyle;

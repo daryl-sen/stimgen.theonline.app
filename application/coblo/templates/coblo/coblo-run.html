@@ -77,6 +77,9 @@ block page_content %}
       <br />
       <input id="whiteGap" type="checkbox" />
       <label for="whiteGap">White gaps</label>
+      <br />
+      <input id="showNumbers" type="checkbox" />
+      <label for="showNumbers">Draw block numbers</label>
     </div>
 
     <div id="coord-form" class="hidden">
@@ -160,6 +163,7 @@ block page_content %}
         const runMode = "{{ run_mode }}";
         const showLines = document.getElementById("showLines");
         const whiteGap = document.getElementById("whiteGap");
+        const showNumbers = document.getElementById("showNumbers");
 
         if (targetMode === "target") {
           changeLocationManipulation(targetLocation, runMode, null);
@@ -183,21 +187,32 @@ block page_content %}
 
       // console.log(drawingInstructions);
 
+      
+      let blockIndex = 1;
       for (const block of drawingInstructions.ABlocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
           showLines: showLines.checked,
           whiteGap: whiteGap.checked,
+          blockNumber: blockIndex,
+          showNumbers: showNumbers.checked
         });
+        blockIndex++;
       }
 
+      blockIndex = 1;
       for (const block of drawingInstructions.BBlocks) {
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
           showLines: showLines.checked,
           whiteGap: whiteGap.checked,
+          blockNumber: blockIndex,
+          showNumbers: showNumbers.checked
         });
+        blockIndex++;
       }
+
+
     };
 
     function regenerate(basedOnConfig) {
