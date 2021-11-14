@@ -74,6 +74,9 @@ block page_content %}
     <div>
       <input id="showLines" type="checkbox" />
       <label for="showLines"> Show connecting lines (if gap is present) </label>
+      <br />
+      <input id="whiteGap" type="checkbox" />
+      <label for="whiteGap">White gaps</label>
     </div>
 
     <div id="coord-form" class="hidden">
@@ -156,6 +159,7 @@ block page_content %}
         const targetMode = "{{ target_mode }}";
         const runMode = "{{ run_mode }}";
         const showLines = document.getElementById("showLines");
+        const whiteGap = document.getElementById("whiteGap");
 
         if (targetMode === "target") {
           changeLocationManipulation(targetLocation, runMode, null);
@@ -183,6 +187,7 @@ block page_content %}
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
           showLines: showLines.checked,
+          whiteGap: whiteGap.checked,
         });
       }
 
@@ -190,6 +195,7 @@ block page_content %}
         drawSemiBlock(c2, block.coordinates, block.colors[0], block.colors[1], {
           gap: +document.getElementById("gap").value,
           showLines: showLines.checked,
+          whiteGap: whiteGap.checked,
         });
       }
     };

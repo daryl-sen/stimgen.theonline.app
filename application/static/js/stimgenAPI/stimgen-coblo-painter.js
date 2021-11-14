@@ -184,7 +184,7 @@ const painter = () => {
       rightOrigin.x =
         rightOrigin.x + (options.gap / 2) * (CONFIG.objectWidth / 2);
 
-      const connectorThickness = 1;
+      const connectorThickness = 3;
       blocks.topLine = {
         coordinates: leftOrigin,
         color: leftColor,
@@ -219,6 +219,15 @@ const painter = () => {
           ? blocks[block].connectorThickness
           : CONFIG.objectHeight
       );
+      context.fillStyle = '#ffffff';
+      if (options.whiteGap && block === 'left') {
+        context.fillRect(
+          blocks[block].coordinates.x + CONFIG.objectWidth / 2,
+          blocks[block].coordinates.y - 1,
+          CONFIG.objectWidth / 2 * options.gap,
+          CONFIG.objectHeight - 1
+        )
+      }
     }
     context.fillStyle = originalFillStyle;
   };
