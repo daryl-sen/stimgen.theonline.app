@@ -337,13 +337,13 @@ const painter = () => {
         );
       }
       if (options.showNumbers && options.gap && block === "left") {
-        const length = 10;
-        const breadth = 5;
+        const breadth = CONFIG.objectHeight / 11;
+        const length = breadth * 3;
         drawSegment7Number(
           context,
           options.blockNumber,
           {
-            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 + (CONFIG.objectWidth / 2 * options.gap) / 2 + length / 2,
+            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 + (CONFIG.objectWidth / 2 * options.gap) / 2 - length / 2,
             y: blocks[block].coordinates.y + breadth,
           },
           { length, breadth }
