@@ -336,12 +336,19 @@ const painter = () => {
           CONFIG.objectHeight
         );
       }
+
+      const reverse1And2 = (number) => {
+        if (number === 1) return 2
+        if (number === 2) return 1
+        return number
+      }
+
       if (options.showNumbers && options.gap && block === "left") {
         const length = CONFIG.objectWidth / 7;
         const breadth = length / 3;
         drawSegment7Number(
           context,
-          options.blockNumber,
+          reverse1And2(options.blockNumber),
           {
             x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 + (CONFIG.objectWidth / 2 * options.gap) / 2 - length / 2,
             y: blocks[block].coordinates.y + breadth,
