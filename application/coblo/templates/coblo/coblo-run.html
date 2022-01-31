@@ -80,6 +80,9 @@ block page_content %}
       <br />
       <input id="showNumbers" type="checkbox" />
       <label for="showNumbers">Draw block numbers</label>
+      <br />
+      <input id="drawDiagonalLine" type="checkbox" />
+      <label for="drawDiagonalLine">Draw diagonal line</label>
     </div>
 
     <div id="coord-form" class="hidden">
@@ -152,6 +155,7 @@ block page_content %}
               sampleWithReplacement(colorOptions),
               sampleWithReplacement(colorOptions),
             ],
+            topLeftToBottomRight: Math.random() < 0.5 ? true : false,
           });
         }
 
@@ -164,6 +168,7 @@ block page_content %}
         const showLines = document.getElementById("showLines");
         const whiteGap = document.getElementById("whiteGap");
         const showNumbers = document.getElementById("showNumbers");
+        const drawDiagonalLine = document.getElementById("drawDiagonalLine");
 
         if (targetMode === "target") {
           changeLocationManipulation(targetLocation, runMode, null);
@@ -185,9 +190,6 @@ block page_content %}
         drawingInstructions = JSON.parse(coordinatesJSON);
       }
 
-      // console.log(drawingInstructions);
-
-      
       let blockIndex = 1;
       for (const block of drawingInstructions.ABlocks) {
         drawSemiBlock(c1, block.coordinates, block.colors[0], block.colors[1], {
@@ -195,7 +197,9 @@ block page_content %}
           showLines: showLines.checked,
           whiteGap: whiteGap.checked,
           blockNumber: blockIndex,
-          showNumbers: showNumbers.checked
+          showNumbers: showNumbers.checked,
+          drawDiagonalLine: drawDiagonalLine.checked,
+          drawTopLeftToBottomRight: block.topLeftToBottomRight,
         });
         blockIndex++;
       }
@@ -207,12 +211,12 @@ block page_content %}
           showLines: showLines.checked,
           whiteGap: whiteGap.checked,
           blockNumber: blockIndex,
-          showNumbers: showNumbers.checked
+          showNumbers: showNumbers.checked,
+          drawDiagonalLine: drawDiagonalLine.checked,
+          drawTopLeftToBottomRight: block.topLeftToBottomRight,
         });
         blockIndex++;
       }
-
-
     };
 
     function regenerate(basedOnConfig) {

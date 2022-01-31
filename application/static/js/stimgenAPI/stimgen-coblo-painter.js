@@ -15,13 +15,18 @@ const painter = () => {
     return canvasContext;
   };
 
-  const drawDiagonalLine = (startingCoordinates, finishingCoordinates, context, width = 1) => {
+  const drawDiagonalLine = (
+    startingCoordinates,
+    finishingCoordinates,
+    context,
+    width = 1
+  ) => {
     context.fillStyle = "#000000";
     context.beginPath();
     context.moveTo(startingCoordinates.x, startingCoordinates.y);
     context.lineTo(finishingCoordinates.x, finishingCoordinates.y);
     context.stroke();
-  }
+  };
 
   const drawSegment7Number = (
     context,
@@ -44,7 +49,12 @@ const painter = () => {
       context.fillRect(x + breadth, y + breadth + length, length, breadth);
     };
     const drawBotLine = () => {
-      context.fillRect(x + breadth, y + 2 * breadth + 2 * length, length, breadth);
+      context.fillRect(
+        x + breadth,
+        y + 2 * breadth + 2 * length,
+        length,
+        breadth
+      );
     };
     const drawTopLeftLine = () => {
       context.fillRect(x, y + breadth, breadth, length);
@@ -56,7 +66,12 @@ const painter = () => {
       context.fillRect(x + breadth + length, y + breadth, breadth, length);
     };
     const drawBottomRightLine = () => {
-      context.fillRect(x + breadth + length, y + 2 * breadth + length, breadth, length);
+      context.fillRect(
+        x + breadth + length,
+        y + 2 * breadth + length,
+        breadth,
+        length
+      );
     };
 
     switch (number) {
@@ -319,15 +334,15 @@ const painter = () => {
     }
 
     const reverse1And2 = (number) => {
-      if (number === 1) return 2
-      if (number === 2) return 1
-      return number
-    }
+      if (number === 1) return 2;
+      if (number === 2) return 1;
+      return number;
+    };
 
     const originalFillStyle = context.fillStyle;
     for (const block in blocks) {
       context.fillStyle = blocks[block].color;
-      // console.log(blocks[block]);
+
       if (blocks[block].lineOnly && options.showLines === false) {
         continue;
       }
@@ -358,21 +373,52 @@ const painter = () => {
           context,
           reverse1And2(options.blockNumber),
           {
-            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 + (CONFIG.objectWidth / 2 * options.gap) / 2 - length / 2,
+            x:
+              blocks[block].coordinates.x +
+              CONFIG.objectWidth / 2 +
+              ((CONFIG.objectWidth / 2) * options.gap) / 2 -
+              length / 2,
             y: blocks[block].coordinates.y + breadth,
           },
           { length, breadth }
         );
       }
 
-      if (true && options.gap) {
-        drawDiagonalLine({
-          x: blocks[block].coordinates.x + CONFIG.objectWidth / 2,
-          y: blocks[block].coordinates.y
-        },{
-          x: blocks[block].coordinates.x + CONFIG.objectWidth / 2 * (options.gap + 1),
-          y: blocks[block].coordinates.y + CONFIG.objectHeight
-        }, context)
+      if (options.gap && options.drawDiagonalLine) {
+        const topLeftToBottomRight = {
+          start: {
+            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2,
+            y: blocks[block].coordinates.y,
+          },
+          finish: {
+            x:
+              blocks[block].coordinates.x +
+              (CONFIG.objectWidth / 2) * (options.gap + 1),
+            y: blocks[block].coordinates.y + CONFIG.objectHeight,
+          },
+        };
+
+        const bottomLeftToTopRight = {
+          start: {
+            x: blocks[block].coordinates.x + CONFIG.objectWidth / 2,
+            y: blocks[block].coordinates.y + CONFIG.objectHeight,
+          },
+          finish: {
+            x:
+              blocks[block].coordinates.x +
+              (CONFIG.objectWidth / 2) * (options.gap + 1),
+            y: blocks[block].coordinates.y,
+          },
+        };
+
+        const startingCoordinates = options.drawTopLeftToBottomRight
+          ? topLeftToBottomRight.start
+          : bottomLeftToTopRight.start;
+        const finishingCoordinates = options.drawTopLeftToBottomRight
+          ? topLeftToBottomRight.finish
+          : bottomLeftToTopRight.finish;
+
+        drawDiagonalLine(startingCoordinates, finishingCoordinates, context);
       }
     }
     context.fillStyle = originalFillStyle;
