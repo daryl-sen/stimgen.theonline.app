@@ -500,8 +500,6 @@ const painter = () => {
     changeType,
     changeValues
   ) => {
-    console.log(changeValues);
-
     if (changeType === "overlap") {
       return changeValues;
     }
@@ -514,10 +512,11 @@ const painter = () => {
       );
     }
 
-    return {
-      x: changeDirection.x + CONFIG.imageWidth,
-      y: changeDirection.y + CONFIG.imageHeight,
-    };
+    return determineCoordinateChangeByDirection(
+      changeDirection,
+      changeValues.x + CONFIG.objectWidth,
+      changeValues.y + CONFIG.objectHeight
+    );
   };
 
   const changeLocationManipulation = (changeLocation, mode, customConfig) => {
@@ -555,6 +554,8 @@ const painter = () => {
           changeType,
           coordinateChange
         );
+
+        console.log(x, y);
 
         changeLocation.coordinates.x += x;
         changeLocation.coordinates.y += y;
