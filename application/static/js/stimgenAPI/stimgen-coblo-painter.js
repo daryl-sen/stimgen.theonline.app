@@ -479,20 +479,20 @@ const painter = () => {
     return blocks[randomIndex];
   };
 
-  const determineCoordinateChangeByDirection = (direction, value) => {
+  const determineCoordinateChangeByDirection = (direction, xValue, yValue) => {
     if (direction === "topLeft") {
-      return { x: -value, y: -value };
+      return { x: -xValue, y: -yValue || -xValue };
     }
 
     if (direction === "topRight") {
-      return { x: value, y: -value };
+      return { x: xValue, y: -yValue || -xValue };
     }
 
     if (direction === "bottomLeft") {
-      return { x: -value, y: value };
+      return { x: -xValue, y: yValue || xValue };
     }
 
-    return { x: value, y: value };
+    return { x: xValue, y: yValue || xValue };
   };
 
   const determineValueAfterPadding = (
@@ -500,15 +500,18 @@ const painter = () => {
     changeType,
     changeValues
   ) => {
+    console.log(changeValues);
+
     if (changeType === "overlap") {
       return changeValues;
     }
 
     if (changeType === "touch") {
-      return determineCoordinateChangeByDirection(changeDirection, {
-        x: CONFIG.imageWidth,
-        y: CONFIG.imageHeight,
-      });
+      return determineCoordinateChangeByDirection(
+        changeDirection,
+        CONFIG.objectWidth,
+        CONFIG.objectHeight
+      );
     }
 
     return {
