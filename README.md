@@ -1,5 +1,8 @@
 # Stimgen
 
+IMPORTANT UPDATE:
+Version 4 is in the works, with a major UI and UX revamp. 
+
 Stimgen is an online software that generates images for running <a href="http://www.sfu.ca/psychology/research/vlab/research.html">change blindness</a> experiments. It is highly configurable, with options for image size, colors, individual stimulus size, and the number of stimuli on screen.
 
 ## What does it do?
