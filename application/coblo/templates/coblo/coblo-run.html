@@ -9,7 +9,16 @@ block page_content %}
 <main class="confined">
   <h1>Colored Blocks Generator</h1>
   <section class="bg-white shadowed padded">
-    <p>Current mode: <code>{{run_mode}} {{target_mode}}</code></p>
+    <div>
+      <h3>Current Changes</h3>
+      Target displacement value:
+      <span id="displayDisplacementValue">Undefined</span><br />
+      Target displacement direction:
+      <span id="displayDisplacementDirection">Undefined</span><br />
+      Target manipulation type:
+      <span id="displayTargetManipulationType">Undefined</span><br />
+      Values will be undefined if images have not been generated yet.
+    </div>
     <div class="side-by-side">
       <div>
         <canvas id="original"></canvas>
@@ -45,8 +54,6 @@ block page_content %}
       <div>
         Mode
         <select id="runMode">
-          <option value="{{run_mode}}">{{ run_mode.capitalize() }}</option>
-          <option disabled>-----</option>
           <option value="change">Change</option>
           <option value="flip">Flip</option>
         </select>
@@ -54,22 +61,12 @@ block page_content %}
       <div>
         Target selection
         <select id="targetMode">
-          <option value="{{target_mode}}">
-            {{ target_mode.capitalize() }}
-          </option>
-          <option disabled>-----</option>
           <option value="target">Target</option>
           <option value="inverse">Inverse</option>
           <option value="all">All</option>
         </select>
       </div>
-      <div>Gap<input id="gap" type="text" value="{{gap}}" /></div>
-      <div>
-        <br />
-        <button class="custom button-secondary" onClick="navigateNewConfig()">
-          Start
-        </button>
-      </div>
+      <div>Gap<input id="gap" type="text" value="0" /></div>
     </div>
     <div>
       <input id="showLines" type="checkbox" />
@@ -83,6 +80,33 @@ block page_content %}
       <br />
       <input id="drawDiagonalLine" type="checkbox" />
       <label for="drawDiagonalLine">Draw diagonal line</label>
+      <br />
+      <input id="changePositionCheck" type="checkbox" />
+      <label for="changePositionCheck"
+        >Change target block position (does not work with 'inverse' or
+        'all')</label
+      >
+      <select id="changePositionTypeSelect">
+        <option value="overlap">Overlap</option>
+        <option value="touch">Touch</option>
+        <option value="separate">Separate</option>
+      </select>
+      <input
+        type="text"
+        id="changePositionMax"
+        placeholder="max position change value"
+      />
+      <input
+        type="text"
+        id="changePositionMin"
+        placeholder="min position change value"
+      />
+      <select id="changeDirectionValueSelect">
+        <option value="topLeft">Top Left</option>
+        <option value="topRight">Top Right</option>
+        <option value="bottomLeft">Bottom Left</option>
+        <option value="bottomRight">Bottom Right</option>
+      </select>
     </div>
 
     <div id="coord-form" class="hidden">
@@ -163,15 +187,38 @@ block page_content %}
         const BBlocks = JSON.parse(JSON.stringify(blocks));
 
         const targetLocation = pickChangeLocation(BBlocks);
-        const targetMode = "{{ target_mode }}";
-        const runMode = "{{ run_mode }}";
+        const targetMode = document.getElementById("targetMode").value;
+        const runMode = document.getElementById("runMode").value;
         const showLines = document.getElementById("showLines");
         const whiteGap = document.getElementById("whiteGap");
         const showNumbers = document.getElementById("showNumbers");
         const drawDiagonalLine = document.getElementById("drawDiagonalLine");
+        const shouldChangePosition = document.getElementById(
+          "changePositionCheck"
+        ).value;
+        const changeType = document.getElementById(
+          "changePositionTypeSelect"
+        ).value;
+        const changePositionMaxValue =
+          document.getElementById("changePositionMax").value;
+        const changePositionMinValue =
+          document.getElementById("changePositionMin").value;
+        const changePositionValue = getRandomInt(
+          changePositionMinValue,
+          changePositionMaxValue
+        );
+
+        const changeDirection = document.getElementById(
+          "changeDirectionValueSelect"
+        ).value;
 
         if (targetMode === "target") {
-          changeLocationManipulation(targetLocation, runMode, null);
+          changeLocationManipulation(targetLocation, runMode, {
+            shouldChangePosition,
+            changeType, // overlap, touch, or separate
+            changeValue: changePositionValue, // applies to X and Y
+            changeDirection, // topLeft, topRight, bottomLeft, or bottomRight
+          });
         } else if (targetMode === "inverse") {
           inverseManipulation(targetLocation, runMode, BBlocks);
         } else if (targetMode === "all") {
@@ -186,6 +233,13 @@ block page_content %}
 
         document.getElementById("stimulus_JSON").value =
           JSON.stringify(drawingInstructions);
+
+        document.getElementById("displayDisplacementValue").innerHTML =
+          changePositionValue;
+        document.getElementById("displayDisplacementDirection").innerHTML =
+          changeDirection;
+        document.getElementById("displayTargetManipulationType").innerHTML =
+          changeType;
       } else {
         drawingInstructions = JSON.parse(coordinatesJSON);
       }

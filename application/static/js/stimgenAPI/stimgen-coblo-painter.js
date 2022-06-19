@@ -1,3 +1,9 @@
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
 const painter = () => {
   const setupCanvasContext = (canvasID) => {
     const targetCanvas = document.getElementById(canvasID);
@@ -473,6 +479,44 @@ const painter = () => {
     return blocks[randomIndex];
   };
 
+  const determineCoordinateChangeByDirection = (direction, value) => {
+    if (direction === "topLeft") {
+      return { x: -value, y: -value };
+    }
+
+    if (direction === "topRight") {
+      return { x: value, y: -value };
+    }
+
+    if (direction === "bottomLeft") {
+      return { x: -value, y: value };
+    }
+
+    return { x: value, y: value };
+  };
+
+  const determineValueAfterPadding = (
+    changeDirection,
+    changeType,
+    changeValues
+  ) => {
+    if (changeType === "overlap") {
+      return changeValues;
+    }
+
+    if (changeType === "touch") {
+      return determineCoordinateChangeByDirection(changeDirection, {
+        x: CONFIG.imageWidth,
+        y: CONFIG.imageHeight,
+      });
+    }
+
+    return {
+      x: changeDirection.x + CONFIG.imageWidth,
+      y: changeDirection.y + CONFIG.imageHeight,
+    };
+  };
+
   const changeLocationManipulation = (changeLocation, mode, customConfig) => {
     if (mode === "flip") {
       changeLocation.colors = [
@@ -492,6 +536,25 @@ const painter = () => {
         const colorOptions = [...CONFIG.colors];
         color1 = sampleWithReplacement(colorOptions);
         color2 = sampleWithReplacement(colorOptions);
+      }
+
+      const { shouldChangePosition, changeDirection, changeValue, changeType } =
+        customConfig;
+
+      if (shouldChangePosition) {
+        const coordinateChange = determineCoordinateChangeByDirection(
+          changeDirection,
+          changeValue
+        );
+
+        const { x, y } = determineValueAfterPadding(
+          changeDirection,
+          changeType,
+          coordinateChange
+        );
+
+        changeLocation.coordinates.x += x;
+        changeLocation.coordinates.y += y;
       }
 
       changeLocation.colors = [color1, color2];
